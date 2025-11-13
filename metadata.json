@@ -1,0 +1,5 @@
+{
+  "name": "AttendTrack",
+  "description": "A desktop-first attendance application for BTech colleges. Lecturers can mark and manage attendance within a specific timeframe, while students can view their records. Designed for efficiency with keyboard-first navigation and a modern, fluid interface.",
+  "requestFramePermissions": []
+}
