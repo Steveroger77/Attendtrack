@@ -37,8 +37,9 @@ class ErrorBoundary extends Component<Props, State> {
       );
     }
     
-    // FIX: Directly return this.props.children to resolve a potential TypeScript inference issue.
-    return this.props.children;
+    // FIX: Destructure `children` from `this.props` to ensure correct type inference.
+    const { children } = this.props;
+    return children;
   }
 }
 
