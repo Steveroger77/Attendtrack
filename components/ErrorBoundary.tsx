@@ -1,4 +1,3 @@
-
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
@@ -37,7 +36,8 @@ class ErrorBoundary extends Component<Props, State> {
         </div>
       );
     }
-
+    
+    // FIX: Directly return this.props.children to resolve a potential TypeScript inference issue.
     return this.props.children;
   }
 }
