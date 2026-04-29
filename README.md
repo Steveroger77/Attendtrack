@@ -1,4 +1,5 @@
 🎓 AttendTrack: BTech Attendance, Reimagined
+
 AttendTrack is a smart, sleek attendance management system designed specifically for the fast-paced environment of BTech colleges. It replaces outdated paper registers with a high-tech digital dashboard that focuses on speed, accountability, and transparency.
 Whether you're a lecturer trying to mark a class in 30 seconds or a student worried about your 75% requirement, AttendTrack has you covered.
 
@@ -25,10 +26,15 @@ Global Settings: Control the "Edit Window"—for example, set it so teachers can
 
 🛠️ The Tech Stack
 I built this using modern, industry-standard tools to ensure it’s fast and reliable:
+
 React 19: For a snappy, modern user interface.
+
 TypeScript: To keep the code clean and prevent bugs before they happen.
+
 Tailwind CSS: For that beautiful, professional Dark Mode look.
+
 OGL (WebGL): That cool "Light Ray" effect on the login screen? That’s high-performance graphics at work.
+
 Mock API Service: I built a custom API layer that stores everything in your browser's LocalStorage. It feels like a real database, but it works instantly without any setup!
 
 🧠 The "Secret Sauce" (How it works)
