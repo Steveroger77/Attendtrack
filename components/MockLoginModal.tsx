@@ -34,6 +34,20 @@ const CopyButton: React.FC<{ textToCopy: string }> = ({ textToCopy }) => {
     );
 };
 
+const FALLBACK_LOGINS: MockLoginCredential[] = [
+  { name: 'tanguturi prakasam panthulu', college_id: 'L001', password: 'l001pass', role: 'LECTURER' as Role },
+  { name: 'veereham bhakalam panthulu', college_id: 'L002', password: 'l002pass', role: 'LECTURER' as Role },
+  { name: 'pingali venkayya', college_id: 'L003', password: 'l003pass', role: 'LECTURER' as Role },
+  { name: 'bossu', college_id: 'L004', password: 'l004pass', role: 'LECTURER' as Role },
+  { name: 'heisenberg', college_id: 'L005', password: 'l005pass', role: 'LECTURER' as Role },
+  { name: 'amit', college_id: 'BT2023001', password: 'bt2023001pass', role: 'STUDENT' as Role },
+  { name: 'jon snow', college_id: 'BT2023002', password: 'bt2023002pass', role: 'STUDENT' as Role },
+  { name: 'pedhodu', college_id: 'BT2023003', password: 'bt2023003pass', role: 'STUDENT' as Role },
+  { name: 'chinnodu', college_id: 'BT2023004', password: 'bt2023004pass', role: 'STUDENT' as Role },
+  { name: 'zukir', college_id: 'BT2023005', password: 'bt2023005pass', role: 'STUDENT' as Role },
+  { name: 'relangi Mavayya', college_id: 'ADMIN01', password: 'admin01pass', role: 'ADMIN' as Role },
+];
+
 const MockLoginModal: React.FC<MockLoginModalProps> = ({ isOpen, onClose }) => {
   const [logins, setLogins] = useState<MockLoginCredential[]>([]);
   const [loading, setLoading] = useState(true);
@@ -50,8 +64,9 @@ const MockLoginModal: React.FC<MockLoginModalProps> = ({ isOpen, onClose }) => {
         throw new Error("Received invalid data format from server.");
       }
     } catch (err: any) {
-      console.error("Failed to fetch mock logins", err);
-      setError(err?.message || "Failed to fetch mock credentials.");
+      console.warn("Failed to fetch mock logins from server, using local fallback:", err);
+      setLogins(FALLBACK_LOGINS);
+      setError(null);
     } finally {
       setLoading(false);
     }
