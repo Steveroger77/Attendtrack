@@ -102,12 +102,8 @@ const AttendanceGridModal: React.FC<AttendanceGridModalProps> = ({ isOpen, onClo
   const [activePin, setActivePin] = useState<string | null>(null);
   const [generatingPin, setGeneratingPin] = useState(false);
   const [pinTimer, setPinTimer] = useState<number>(0);
-  const [editWindowDays, setEditWindowDays] = useState<number>(2);
 
-  useEffect(() => {
-    mockApi.getEditWindowDays().then(setEditWindowDays).catch(console.error);
-  }, []);
-
+  const editWindowDays = mockApi.getEditWindowDays();
   const today = new Date(); today.setHours(0,0,0,0);
   const recordDate = new Date(date); recordDate.setHours(0,0,0,0);
 

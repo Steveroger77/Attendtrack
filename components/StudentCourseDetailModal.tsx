@@ -33,11 +33,7 @@ const StudentCourseDetailModal: React.FC<StudentCourseDetailModalProps> = ({ isO
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'monthly' | 'daily'>('monthly');
-  const [reqPct, setReqPct] = useState<number>(75);
-
-  useEffect(() => {
-    mockApi.getRequiredAttendancePercentage().then(setReqPct).catch(console.error);
-  }, []);
+  const reqPct = mockApi.getRequiredAttendancePercentage();
 
   useEffect(() => {
     if (!isOpen || !user) return;

@@ -36,9 +36,9 @@ const NightCityLandscape: React.FC = () => {
           </linearGradient>
 
           {/* Premium Glowing Filters for The Yellow Window Lights to Create 3D Glow / Bloom */}
-          <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="1.2" result="blur1" />
-            <feGaussianBlur stdDeviation="3.0" result="blur2" />
+          <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="0.8" result="blur1" />
+            <feGaussianBlur stdDeviation="1.8" result="blur2" />
             <feMerge>
               <feMergeNode in="blur2" />
               <feMergeNode in="blur1" />
@@ -46,9 +46,9 @@ const NightCityLandscape: React.FC = () => {
             </feMerge>
           </filter>
 
-          <filter id="extraGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="2.2" result="blur1" />
-            <feGaussianBlur stdDeviation="5.0" result="blur2" />
+          <filter id="extraGlow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="1.5" result="blur1" />
+            <feGaussianBlur stdDeviation="3.5" result="blur2" />
             <feMerge>
               <feMergeNode in="blur2" />
               <feMergeNode in="blur1" />
@@ -58,22 +58,22 @@ const NightCityLandscape: React.FC = () => {
 
           {/* Path Light Gradient Wedge */}
           <linearGradient id="pathLightWedge" x1="0.5" y1="0" x2="0.5" y2="1">
-            <stop offset="0%" stopColor="rgba(253, 186, 116, 0.12)" />  {/* Warm golden-yellow glow */}
+            <stop offset="0%" stopColor="rgba(253, 186, 116, 0.12)" />  {/* Warm golden-yellow glow, muted */}
             <stop offset="100%" stopColor="rgba(7, 6, 10, 0)" />       {/* Blends out */}
           </linearGradient>
 
-          {/* Building Window Gradient (Glow effect emulation inside windows) */}
+          {/* Building Window Gradient (Glow effect emulation inside windows, softened) */}
           <linearGradient id="windowGlow" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#ebdca3" />
-            <stop offset="60%" stopColor="#bfa136" />
-            <stop offset="100%" stopColor="#5f3e11" />
+            <stop offset="0%" stopColor="#e5ce95" />
+            <stop offset="60%" stopColor="#ca960f" />
+            <stop offset="100%" stopColor="#593c12" />
           </linearGradient>
 
           {/* Symmetrical Arch Doorway Gradient */}
           <linearGradient id="archDoorwayGlow" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#efdf95" />
-            <stop offset="50%" stopColor="#ad7f1f" />
-            <stop offset="100%" stopColor="#5f3e11" />
+            <stop offset="0%" stopColor="#e5ce95" />
+            <stop offset="50%" stopColor="#a17011" />
+            <stop offset="100%" stopColor="#593c12" />
           </linearGradient>
 
           {/* Building Shadows & Facades Gradients styled with absolute night charcoal & black */}
@@ -94,13 +94,13 @@ const NightCityLandscape: React.FC = () => {
           </linearGradient>
 
           <linearGradient id="scenicMoonGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="100%" stopColor="#e2e8f0" />
+            <stop offset="0%" stopColor="#fffaec" />
+            <stop offset="100%" stopColor="#fbbf24" />
           </linearGradient>
 
           <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.2)" />
-            <stop offset="50%" stopColor="rgba(226, 232, 240, 0.03)" />
+            <stop offset="0%" stopColor="rgba(255, 250, 236, 0.35)" />
+            <stop offset="40%" stopColor="rgba(251, 191, 36, 0.05)" />
             <stop offset="100%" stopColor="rgba(0, 0, 0, 0)" />
           </radialGradient>
         </defs>
@@ -132,7 +132,7 @@ const NightCityLandscape: React.FC = () => {
           <path 
             d="M -30,-40 A 55,55 0 1,0 45,55 A 45,47 0 1,1 -30,-40 Z" 
             fill="url(#scenicMoonGrad)" 
-            filter="drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.2))"
+            filter="drop-shadow(0px 0px 8px rgba(251, 191, 36, 0.4))"
           />
         </g>
 
@@ -161,8 +161,8 @@ const NightCityLandscape: React.FC = () => {
             {/* Symmetrical Left Wing background block */}
             <rect x="0" y="210" width="60" height="150" fill="url(#secondaryBuildingDark)" />
             <rect x="-4" y="210" width="68" height="8" fill="#0d0d12" />
-            <rect x="15" y="235" width="14" height="30" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4" rx="1" />
-            <rect x="15" y="290" width="14" height="30" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4" rx="1" />
+            <rect x="15" y="235" width="14" height="30" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.5" rx="1" />
+            <rect x="15" y="290" width="14" height="30" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.5" rx="1" />
 
             {/* Main Neoclassical backing wall */}
             <rect x="60" y="170" width="280" height="190" fill="url(#buildingDark)" />
@@ -172,13 +172,13 @@ const NightCityLandscape: React.FC = () => {
             
             {/* Circular Medal Emblem in Center Pediment */}
             <circle cx="200" cy="140" r="18" fill="#020204" stroke="#0c0c10" strokeWidth="2" />
-            <circle cx="200" cy="140" r="13" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.3" />
+            <circle cx="200" cy="140" r="13" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.35" />
             <circle cx="200" cy="140" r="10" fill="#020204" />
 
             {/* Architrave support layer */}
             <rect x="50" y="170" width="300" height="18" fill="#0c0c10" />
 
-            {/* Glowing Golden Windows behind the pillars (symmetrical columns) */}
+            {/* Glowing Golden Windows behind the pillars (symmetrical columns, softened) */}
             <g id="temple-windows" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4">
               <rect x="85" y="200" width="15" height="36" rx="2" />
               <rect x="85" y="260" width="15" height="36" rx="2" />
@@ -213,8 +213,8 @@ const NightCityLandscape: React.FC = () => {
             {/* Symmetrical Right Wing block */}
             <rect x="340" y="210" width="60" height="150" fill="url(#secondaryBuildingDark)" />
             <rect x="336" y="210" width="68" height="8" fill="#0d0d12" />
-            <rect x="360" y="235" width="14" height="30" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4" rx="1" />
-            <rect x="360" y="290" width="14" height="30" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4" rx="1" />
+            <rect x="360" y="235" width="14" height="30" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.5" rx="1" />
+            <rect x="360" y="290" width="14" height="30" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.5" rx="1" />
           </g>
 
           {/* --------------------------------------------------------- */}
@@ -239,10 +239,10 @@ const NightCityLandscape: React.FC = () => {
 
             {/* Dome Peak Spire */}
             <line x1="100" y1="68" x2="100" y2="28" stroke="#0d0d12" strokeWidth="3" />
-            <circle cx="100" cy="24" r="5" fill="#cca43b" filter="url(#softGlow)" opacity="0.7" />
+            <circle cx="100" cy="24" r="5" fill="#caa23d" filter="url(#softGlow)" />
 
             {/* Arched glowing windows under the dome */}
-            <g id="dome-arched-windows" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4">
+            <g id="dome-arched-windows" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.45">
               <rect x="40" y="170" width="22" height="38" rx="11" />
               <rect x="89" y="170" width="22" height="38" rx="11" />
               <rect x="138" y="170" width="22" height="38" rx="11" />
@@ -253,7 +253,7 @@ const NightCityLandscape: React.FC = () => {
 
             {/* Door base */}
             <rect x="85" y="250" width="30" height="60" fill="#030305" />
-            <rect x="88" y="255" width="24" height="55" fill="url(#windowGlow)" opacity="0.12" />
+            <rect x="88" y="255" width="24" height="55" fill="url(#windowGlow)" opacity="0.15" />
           </g>
 
           {/* --------------------------------------------------------- */}
@@ -264,8 +264,8 @@ const NightCityLandscape: React.FC = () => {
             <rect x="0" y="200" width="70" height="180" fill="url(#secondaryBuildingDark)" />
             <rect x="0" y="200" width="70" height="8" fill="#0d0d12" />
             
-            {/* Left Wing Windows */}
-            <g fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4">
+            {/* Left Wing Windows (softened) */}
+            <g fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.45">
               <rect x="15" y="225" width="14" height="28" rx="1" />
               <rect x="40" y="225" width="14" height="28" rx="1" />
               <rect x="15" y="275" width="14" height="28" rx="1" />
@@ -278,8 +278,8 @@ const NightCityLandscape: React.FC = () => {
             <rect x="180" y="200" width="70" height="180" fill="url(#secondaryBuildingDark)" />
             <rect x="180" y="200" width="70" height="8" fill="#0d0d12" />
 
-            {/* Right Wing Windows */}
-            <g fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4">
+            {/* Right Wing Windows (softened) */}
+            <g fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.45">
               <rect x="195" y="225" width="14" height="28" rx="1" />
               <rect x="220" y="225" width="14" height="28" rx="1" />
               <rect x="195" y="275" width="14" height="28" rx="1" />
@@ -296,18 +296,18 @@ const NightCityLandscape: React.FC = () => {
             
             {/* Roof Pinnacle Spire */}
             <line x1="125" y1="5" x2="125" y2="-45" stroke="#0c0c10" strokeWidth="3" />
-            <circle cx="125" cy="-48" r="4.5" fill="#cca43b" filter="url(#softGlow)" opacity="0.7" />
+            <circle cx="125" cy="-48" r="4.5" fill="#caa23d" filter="url(#softGlow)" />
 
             {/* Classic Clock Face */}
             <circle cx="125" cy="120" r="22" fill="#010102" stroke="#0c0c10" strokeWidth="2" />
-            <circle cx="125" cy="120" r="16" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.35" />
+            <circle cx="125" cy="120" r="16" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.5" />
             {/* Hands */}
             <circle cx="125" cy="120" r="3" fill="#010102" />
             <line x1="125" y1="120" x2="131" y2="114" stroke="#010102" strokeWidth="2.5" />
             <line x1="125" y1="120" x2="125" y2="108" stroke="#010102" strokeWidth="1.8" />
 
-            {/* Inner Tower Windows */}
-            <g fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4">
+            {/* Inner Tower Windows (softened) */}
+            <g fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.5">
               <rect x="90" y="170" width="15" height="40" rx="2" />
               <rect x="115" y="170" width="15" height="40" rx="2" />
               <rect x="140" y="170" width="15" height="40" rx="2" />
@@ -331,9 +331,9 @@ const NightCityLandscape: React.FC = () => {
             <rect x="-5" y="190" width="130" height="10" fill="#0c0c10" />
             <polygon points="-5,190 60,140 125,190" fill="#050507" />
             <circle cx="60" cy="168" r="10" fill="#010102" />
-            <circle cx="60" cy="168" r="7" fill="url(#windowGlow)" filter="url(#softGlow)" />
+            <circle cx="60" cy="168" r="7" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.55" />
 
-            <g id="left-wing-windows" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4">
+            <g id="left-wing-windows" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.5">
               <rect x="22" y="215" width="18" height="35" rx="2" />
               <rect x="22" y="275" width="18" height="35" rx="2" />
               <rect x="22" y="335" width="18" height="30" rx="2" />
@@ -355,12 +355,12 @@ const NightCityLandscape: React.FC = () => {
 
             {/* The Bell Arch with actual Church Bell inside */}
             <path d="M 180,115 A 30,30 0 0,1 240,115 L 240,165 L 180,165 Z" fill="#010102" />
-            <path d="M 180,115 A 30,30 0 0,1 240,115 L 240,165 L 180,165 Z" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4" />
+            <path d="M 180,115 A 30,30 0 0,1 240,115 L 240,165 L 180,165 Z" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.5" />
             <path d="M 210,120 C 202,120 200,135 197,143 C 193,146 192,148 192,152 C 198,152 222,152 228,152 C 228,148 227,146 223,143 C 220,135 218,120 210,120 Z" fill="#050508" />
-            <circle cx="210" cy="154" r="4.5" fill="#cca43b" filter="url(#softGlow)" opacity="0.7" /> {/* clapper */}
+            <circle cx="210" cy="154" r="4.5" fill="#caa23d" filter="url(#softGlow)" /> {/* clapper */}
 
             {/* SMR vertical slot window matrix under the bell chamber */}
-            <g id="tower-tall-windows" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4">
+            <g id="tower-tall-windows" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.5">
               <rect x="138" y="195" width="14" height="42" rx="2" />
               <rect x="162" y="195" width="14" height="42" rx="2" />
               <rect x="186" y="195" width="14" height="42" rx="2" />
@@ -376,7 +376,7 @@ const NightCityLandscape: React.FC = () => {
                 d="M 169,390 L 169,304 A 41,41 0 0,1 251,304 L 251,390 Z" 
                 fill="url(#archDoorwayGlow)" 
                 filter="url(#extraGlow)" 
-                opacity="0.3" 
+                opacity="0.45" 
               />
               <line x1="210" y1="263" x2="210" y2="390" stroke="#010102" strokeWidth="4" />
               <line x1="169" y1="345" x2="251" y2="345" stroke="#010102" strokeWidth="3" />
@@ -387,9 +387,9 @@ const NightCityLandscape: React.FC = () => {
             <rect x="295" y="190" width="130" height="10" fill="#0c0c10" />
             <polygon points="295,190 360,140 425,190" fill="#050507" />
             <circle cx="360" cy="168" r="10" fill="#010102" />
-            <circle cx="360" cy="168" r="7" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4" />
+            <circle cx="360" cy="168" r="7" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.55" />
 
-            <g id="right-wing-windows" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4">
+            <g id="right-wing-windows" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.5">
               <rect x="322" y="215" width="18" height="35" rx="2" />
               <rect x="322" y="275" width="18" height="35" rx="2" />
               <rect x="322" y="335" width="18" height="30" rx="2" />
@@ -410,8 +410,8 @@ const NightCityLandscape: React.FC = () => {
             {/* Horizontal roof safety rails */}
             <path stroke="#0b0b0e" strokeWidth="3" d="M 12,25 L 12,45 M 62,25 L 62,45 M 112,25 L 112,45 M 162,25 L 162,45 M 12,25 L 180,25" />
 
-            {/* Symmetrical matrix grid of double-sash windows */}
-            <g id="sash-grid-windows" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.4">
+            {/* Symmetrical matrix grid of double-sash windows (softened) */}
+            <g id="sash-grid-windows" fill="url(#windowGlow)" filter="url(#softGlow)" opacity="0.45">
               {/* Storey 1 */}
               <rect x="25" y="85" width="25" height="42" rx="2" />
               <rect x="90" y="85" width="25" height="42" rx="2" />
@@ -439,47 +439,47 @@ const NightCityLandscape: React.FC = () => {
             </g>
 
             {/* Flat commercial awning lights on street level */}
-            <rect x="15" y="415" width="115" height="10" fill="url(#windowGlow)" filter="url(#extraGlow)" opacity="0.15" />
+            <rect x="15" y="415" width="115" height="10" fill="url(#windowGlow)" filter="url(#extraGlow)" opacity="0.3" />
           </g>
         </g>
-
+ 
         {/* ========================================================= */}
         {/* 8. GRAND UNIVERSITY PLAZA FOREGROUND PATHWAY              */}
         {/* ========================================================= */}
         <g id="university-grand-courtyard">
           {/* Solid horizontal dark ground paving rect */}
           <rect x="0" y="890" width="1600" height="110" fill="#020204" />
-
-          {/* Glowing Walkway Path Lamps & Golden Wedges Cast */}
-          <g id="path-lights-and-wedges">
+ 
+          {/* Glowing Walkway Path Lamps & Golden Wedges Cast (softened/muted) */}
+          <g id="path-lights-and-wedges" opacity="0.45">
             {/* Lamp Post #1 Left Bottom */}
             <path d="M 480,900 L 460,860 L 452,860 L 472,900 Z" fill="url(#pathLightWedge)" />
-            <circle cx="478" cy="890" r="5" fill="#cca43b" filter="url(#softGlow)" opacity="0.6" />
+            <circle cx="478" cy="890" r="5" fill="#caa23d" filter="url(#softGlow)" />
             <rect x="477" y="890" width="2" height="10" fill="#010103" />
-
+ 
             {/* Lamp Post #1 Right Bottom */}
             <path d="M 1090,900 L 1110,860 L 1118,860 L 1098,900 Z" fill="url(#pathLightWedge)" />
-            <circle cx="1092" cy="890" r="5" fill="#cca43b" filter="url(#softGlow)" opacity="0.6" />
+            <circle cx="1092" cy="890" r="5" fill="#caa23d" filter="url(#softGlow)" />
             <rect x="1091" y="890" width="2" height="10" fill="#010103" />
-
+ 
             {/* Lamp Post #2 Left Middle */}
             <path d="M 574,820 L 558,790 L 552,790 L 568,820 Z" fill="url(#pathLightWedge)" />
-            <circle cx="572" cy="812" r="4.5" fill="#cca43b" filter="url(#softGlow)" opacity="0.6" />
+            <circle cx="572" cy="812" r="4.5" fill="#caa23d" filter="url(#softGlow)" />
             <rect x="571" y="812" width="2" height="8" fill="#010103" />
-
+ 
             {/* Lamp Post #2 Right Middle */}
             <path d="M 996,820 L 1012,790 L 1018,790 L 1002,820 Z" fill="url(#pathLightWedge)" />
-            <circle cx="998" cy="812" r="4.5" fill="#cca43b" filter="url(#softGlow)" opacity="0.6" />
+            <circle cx="998" cy="812" r="4.5" fill="#caa23d" filter="url(#softGlow)" />
             <rect x="997" y="812" width="2" height="8" fill="#010103" />
-
+ 
             {/* Lamp Post #3 Left Top */}
             <path d="M 662,750 L 650,730 L 645,730 L 657,750 Z" fill="url(#pathLightWedge)" />
-            <circle cx="661" cy="744" r="3.5" fill="#cca43b" filter="url(#softGlow)" opacity="0.6" />
+            <circle cx="661" cy="744" r="3.5" fill="#caa23d" filter="url(#softGlow)" />
             <rect x="660" y="744" width="1.5" height="6" fill="#010103" />
-
+ 
             {/* Lamp Post #3 Right Top */}
             <path d="M 908,750 L 920,730 L 925,730 L 913,750 Z" fill="url(#pathLightWedge)" />
-            <circle cx="909" cy="744" r="3.5" fill="#cca43b" filter="url(#softGlow)" opacity="0.6" />
+            <circle cx="909" cy="744" r="3.5" fill="#caa23d" filter="url(#softGlow)" />
             <rect x="908" y="744" width="1.5" height="6" fill="#010103" />
           </g>
         </g>
