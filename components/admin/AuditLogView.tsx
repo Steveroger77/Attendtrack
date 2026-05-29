@@ -2,7 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { FullAuditEvent } from '../../types';
 import { mockApi } from '../../services/api';
 import Card from '../ui/Card';
-import { STATUS_STYLES } from '../../constants';
+import Button from '../ui/Button';
+import { STATUS_STYLES, ICONS } from '../../constants';
 
 const getISODateString = (date: Date) => date.toISOString().split('T')[0];
 
@@ -58,6 +59,40 @@ const AuditLogView: React.FC = () => {
         });
     }, [auditLogs, startDate, endDate]);
 
+    const handleExportCSV = () => {
+        if (filteredLogs.length === 0) return;
+
+        const headers = ["Timestamp", "Student ID", "Student Name", "Course Code", "Course Title", "Section", "Changed By", "Old Status", "New Status"];
+        const csvHeader = headers.join(',') + '\n';
+
+        const csvRows = filteredLogs.map(log => {
+            const row = [
+                `"${new Date(log.changed_at).toLocaleString()}"`,
+                `"${log.student_college_id}"`,
+                `"${log.student_name}"`,
+                `"${log.course_code}"`,
+                `"${log.course_title}"`,
+                `"${log.section_name}"`,
+                `"${log.changer_name}"`,
+                `"${log.old_status || 'UNMARKED'}"`,
+                `"${log.new_status || 'UNMARKED'}"`
+            ];
+            return row.join(',');
+        }).join('\n');
+
+        const csvContent = csvHeader + csvRows;
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.setAttribute('download', `system-audit-log-${new Date().toISOString().split('T')[0]}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    };
+
 
     return (
         <div>
@@ -75,6 +110,17 @@ const AuditLogView: React.FC = () => {
                             <label htmlFor="endDate" className="text-xs font-medium text-gray-400">End Date</label>
                             <input type="date" id="endDate" value={endDate} onChange={e => setEndDate(e.target.value)} min={startDate} className="mt-1 block w-full bg-black/30 border border-white/10 rounded-lg shadow-sm text-sm p-2 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500" />
                         </div>
+                    </div>
+                    <div className="pt-2 md:pt-4">
+                        <Button 
+                            onClick={handleExportCSV} 
+                            disabled={filteredLogs.length === 0 || loading} 
+                            variant="secondary"
+                            className="flex items-center gap-2"
+                        >
+                            {ICONS.export}
+                            Export Audit Ledger
+                        </Button>
                     </div>
                  </div>
             </Card>

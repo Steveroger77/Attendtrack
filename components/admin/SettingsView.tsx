@@ -65,23 +65,65 @@ const SettingsView: React.FC = () => {
                 <form onSubmit={handleSave}>
                     <div className="p-6 space-y-4">
                         <h2 className="text-xl font-semibold">Attendance Rules</h2>
-                        <div>
-                            <label htmlFor="edit_window_days" className="block text-sm font-medium text-gray-300">
-                                Attendance Edit Window (in days)
-                            </label>
-                            <input
-                                id="edit_window_days"
-                                name="edit_window_days"
-                                type="number"
-                                value={settings?.edit_window_days || ''}
-                                onChange={handleInputChange}
-                                required
-                                min="0"
-                                className="mt-1 block w-full md:w-1/2 px-3 py-2 bg-black/50 border border-gray-700 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                            />
-                            <p className="mt-2 text-xs text-gray-500">
-                                The number of past days a lecturer can modify attendance records. 0 means only today.
-                            </p>
+                        <div className="space-y-4">
+                            <div>
+                                <label htmlFor="edit_window_days" className="block text-sm font-medium text-gray-300">
+                                    Attendance Edit Window (in days)
+                                </label>
+                                <input
+                                    id="edit_window_days"
+                                    name="edit_window_days"
+                                    type="number"
+                                    value={settings?.edit_window_days !== undefined ? settings.edit_window_days : ''}
+                                    onChange={handleInputChange}
+                                    required
+                                    min="0"
+                                    className="mt-1 block w-full md:w-1/2 px-3 py-2 bg-black/50 border border-gray-700 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                                />
+                                <p className="mt-1.5 text-xs text-gray-500">
+                                    The number of past days a lecturer can modify attendance records. 0 means only today.
+                                </p>
+                            </div>
+
+                            <div>
+                                <label htmlFor="required_attendance_percentage" className="block text-sm font-medium text-gray-300">
+                                    Required Attendance Threshold (%)
+                                </label>
+                                <input
+                                    id="required_attendance_percentage"
+                                    name="required_attendance_percentage"
+                                    type="number"
+                                    value={settings?.required_attendance_percentage !== undefined ? settings.required_attendance_percentage : 75}
+                                    onChange={handleInputChange}
+                                    required
+                                    min="1"
+                                    max="100"
+                                    className="mt-1 block w-full md:w-1/2 px-3 py-2 bg-black/50 border border-gray-700 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                                />
+                                <p className="mt-1.5 text-xs text-gray-500">
+                                    The minimum attendance required to clear a course (default: 75%). Falling below this causes a critical alert.
+                                </p>
+                            </div>
+
+                            <div>
+                                <label htmlFor="warning_attendance_percentage" className="block text-sm font-medium text-gray-300">
+                                    Warning Attendance Threshold (%)
+                                </label>
+                                <input
+                                    id="warning_attendance_percentage"
+                                    name="warning_attendance_percentage"
+                                    type="number"
+                                    value={settings?.warning_attendance_percentage !== undefined ? settings.warning_attendance_percentage : 80}
+                                    onChange={handleInputChange}
+                                    required
+                                    min="1"
+                                    max="100"
+                                    className="mt-1 block w-full md:w-1/2 px-3 py-2 bg-black/50 border border-gray-700 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                                />
+                                <p className="mt-1.5 text-xs text-gray-500">
+                                    The threshold under which users are warned about near-critical attendance levels (default: 80%).
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <footer className="px-6 py-4 bg-gray-900/50 rounded-b-2xl flex items-center justify-between">

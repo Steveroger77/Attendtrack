@@ -19,6 +19,32 @@ const StudentDashboard: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedCourse, setSelectedCourse] = useState<StudentCourseSummary | null>(null);
 
+  // Real-life PIN checking feature states
+  const [checkInPin, setCheckInPin] = useState('');
+  const [checkInLoading, setCheckInLoading] = useState(false);
+  const [checkInStatus, setCheckInStatus] = useState<{ success?: boolean, message?: string } | null>(null);
+
+  const handlePinCheckIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!checkInPin.trim() || !user) return;
+    setCheckInLoading(true);
+    setCheckInStatus(null);
+    try {
+      const res = await mockApi.studentCheckIn(user.id, checkInPin.trim());
+      setCheckInStatus(res);
+      if (res.success) {
+        setCheckInPin('');
+        // Reload dashboard summary data to show updated percentage
+        const summaryData = await mockApi.getStudentDashboardSummary(user.id);
+        setSummary(summaryData);
+      }
+    } catch (err) {
+      setCheckInStatus({ success: false, message: (err as Error).message });
+    } finally {
+      setCheckInLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!user) return;
     const fetchData = async () => {
@@ -39,7 +65,10 @@ const StudentDashboard: React.FC = () => {
     fetchData();
   }, [user]);
 
-  const lowAttendanceCourses = summary.filter(course => course.percentage < 80);
+  const reqPct = mockApi.getRequiredAttendancePercentage();
+  const warnPct = mockApi.getWarningAttendancePercentage();
+
+  const lowAttendanceCourses = summary.filter(course => course.percentage < warnPct);
 
   if (loading) {
       return (
@@ -68,10 +97,46 @@ const StudentDashboard: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
+          {/* Real-Life Classroom Self Check-In Form */}
+          <Card className="mb-8 p-6 bg-gradient-to-r from-purple-900/40 to-indigo-900/40 border border-purple-500/30 shadow-lg shadow-purple-500/10">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                  <div>
+                      <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2">
+                          <span className="relative flex h-3 w-3">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                          </span>
+                          🔒 Active Classroom Self Check-In
+                      </h3>
+                      <p className="text-sm text-gray-400 mt-1 mt-md-0">
+                          Enter the temporary 4-digit PIN displayed on your lecturer's screen to log your presence.
+                      </p>
+                  </div>
+                  <form onSubmit={handlePinCheckIn} className="flex gap-2 w-full md:w-auto items-center">
+                      <input
+                          type="text"
+                          maxLength={4}
+                          placeholder="PIN"
+                          value={checkInPin}
+                          onChange={(e) => setCheckInPin(e.target.value.replace(/\D/g, ''))}
+                          className="px-4 py-2 text-center text-lg font-mono font-bold tracking-widest bg-black/60 border border-white/20 rounded-lg w-24 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      />
+                      <Button type="submit" disabled={checkInLoading || !checkInPin.trim()} className="whitespace-nowrap">
+                          {checkInLoading ? 'Verifying...' : 'Check-In'}
+                      </Button>
+                  </form>
+              </div>
+              {checkInStatus && (
+                  <div className={`mt-4 p-3 rounded-lg text-sm font-medium animate-fadeIn ${checkInStatus.success ? 'bg-green-500/20 text-green-300 border border-green-500/30' : 'bg-red-500/20 text-red-300 border border-red-500/30'}`}>
+                      {checkInStatus.message}
+                  </div>
+              )}
+          </Card>
+
             {lowAttendanceCourses.length > 0 && (
             <Card className="mb-8 p-6 bg-yellow-500/10 backdrop-blur-xl border-yellow-500/30">
                 <h3 className="text-xl font-bold text-yellow-300">Low Attendance Alert</h3>
-                <p className="text-yellow-400 mt-1">Your attendance is below the 80% threshold in the following subjects. Please attend classes regularly.</p>
+                <p className="text-yellow-400 mt-1">Your attendance is below the {warnPct}% threshold in the following subjects. Please attend classes regularly.</p>
                 <ul className="mt-4 space-y-2 list-disc list-inside">
                     {lowAttendanceCourses.map(course => (
                         <li key={course.code}>
@@ -94,7 +159,7 @@ const StudentDashboard: React.FC = () => {
                     <div>
                         <div className="flex items-center justify-between mb-1">
                         <span className="text-base font-medium text-gray-200">Attendance</span>
-                        <span className={`text-base font-bold ${course.percentage >= 75 ? 'text-green-400' : 'text-yellow-400'}`}>
+                        <span className={`text-base font-bold ${course.percentage >= reqPct ? 'text-green-400' : 'text-yellow-400'}`}>
                             {course.percentage}%
                         </span>
                         </div>
@@ -102,9 +167,9 @@ const StudentDashboard: React.FC = () => {
                         <p className="text-xs text-gray-500 text-right mt-1">{course.attended} / {course.total} classes</p>
                     </div>
                     
-                    {course.percentage < 75 && (
-                        <div className="mt-4 p-2 bg-red-500/10 text-red-300 text-xs rounded-lg text-center">
-                            Warning: Attendance is below the critical 75% threshold.
+                    {course.percentage < reqPct && (
+                        <div className="mt-4 p-2 bg-red-500/10 text-red-300 text-xs rounded-lg text-center font-bold">
+                            Warning: Attendance is below the critical {reqPct}% threshold.
                         </div>
                     )}
                     </div>

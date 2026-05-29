@@ -4,6 +4,7 @@ import Modal from './ui/Modal';
 import Card from './ui/Card';
 import { Role } from '../types';
 import { ICONS } from '../constants';
+import { Server } from 'lucide-react';
 
 const FeatureTourModal: React.FC<{ isOpen: boolean; onClose: () => void; }> = ({ isOpen, onClose }) => {
     const [activeRole, setActiveRole] = useState<Role>(Role.LECTURER);
@@ -25,6 +26,7 @@ const FeatureTourModal: React.FC<{ isOpen: boolean; onClose: () => void; }> = ({
             { icon: ICONS.user, title: "User Management", description: "Welcome to the armory. Suit up new users, upgrade existing ones, or decommission obsolete models. You've got the keys to the kingdom." },
             { icon: ICONS.assignments, title: "Assignments", description: "Strategic deployment. Assign your teaching assets to their mission objectives. It's like a high-stakes game of chess, but with more coffee." },
             { icon: ICONS.upload, title: "Data Import", description: "Nanotech data infusion. Feed me your CSV files, and I'll build your user database faster than you can say 'I am Iron Man'." },
+            { icon: <Server className="h-6 w-6 text-purple-400" />, title: "Deployment Hub", description: "The central command. Download local fallback backup files, spin up Docker microcontainers, or wrap the web application in a double-clickable desktop EXE file for computer lab kiosks." },
             { icon: ICONS.clipboard, title: "Audit Log", description: "The 'I told you so' protocol. Every change, every update, all logged. Nothing gets past this system. Nothing." },
         ]
     };

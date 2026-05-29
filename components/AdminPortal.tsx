@@ -7,6 +7,7 @@ import SettingsView from './admin/SettingsView';
 import AuditLogView from './admin/AuditLogView';
 import LecturerAssignmentsView from './admin/LecturerAssignmentsView';
 import DataImportView from './admin/DataImportView';
+import DeploymentView from './admin/DeploymentView';
 
 const AdminPortal: React.FC = () => {
     const [page, setPage] = useState('dashboard');
@@ -23,6 +24,8 @@ const AdminPortal: React.FC = () => {
                 return <LecturerAssignmentsView />;
             case 'import':
                 return <DataImportView />;
+            case 'deployment':
+                return <DeploymentView />;
             case 'dashboard':
             default:
                 return <AdminDashboard setPage={setPage} />;

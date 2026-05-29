@@ -1,51 +1,86 @@
-🎓 AttendTrack: BTech Attendance, Reimagined
+# 🚀 AttendTrack: Interactive BTech Attendance & Audit System
 
-AttendTrack is a smart, sleek attendance management system designed specifically for the fast-paced environment of BTech colleges. It replaces outdated paper registers with a high-tech digital dashboard that focuses on speed, accountability, and transparency.
-Whether you're a lecturer trying to mark a class in 30 seconds or a student worried about your 75% requirement, AttendTrack has you covered.
+AttendTrack is a modern, web-based attendance platform created specifically for college campuses. It is designed around the needs of three core user groups: **Administrators**, **Lecturers**, and **Students**. 
 
-✨ Why AttendTrack?
-In a busy college, attendance is a headache. Lecturers forget to mark classes, students lose track of their percentages, and disputes often arise about whether someone was actually in class.
-AttendTrack solves this by creating a "Single Source of Truth"—a digital ledger that tracks everything and keeps everyone on the same page.
+Instead of relying on clunky, old-school spreadsheets or physical registers that can get lost or damaged, AttendTrack brings elegance, speed, and real-time tracking to college classrooms.
 
-🚀 Amazing Features
-👨‍🏫 For Lecturers (The Efficiency Boost)
-One-Click Marking: A clean, easy-to-use grid. Mark a whole class in seconds.
-Proactive Reminders: The app actually tells you if you forgot to mark a class from yesterday.
-The "Extra Class" Button: Easily mark unscheduled classes with built-in clash detection.
-Holiday Mode: Mark a day as a holiday to freeze attendance for that date instantly.
+---
 
-👨‍🎓 For Students (The Transparency Tool)
-Attendance Health: A visual progress bar that turns Red the second you drop below 75%. No more guessing.
-Digital Leave Requests: Sick? Submit a leave request with a reason directly to your teacher.
-Course Breakdown: See exactly which subjects you’re doing great in and where you need to show up more.
+## 💡 The Core Idea (An Analogy)
 
-🛡️ For Admins (The Command Center)
-The "Black Box" Audit Trail: Every single time attendance is changed, it’s logged. Who changed it? When? What was the old status? It’s all there.
-User Management: Easily add students, hire lecturers, and assign them to subjects.
-Global Settings: Control the "Edit Window"—for example, set it so teachers can only change attendance for 2 days.
+Think of AttendTrack like a **Modern Airport Coordination System**:
+*   **The Administrators (Air Traffic Control):** They don't fly the planes or board the passengers, but they manage the crew (Lecturers), register the flights (Courses/Sessions), and watch the Radar (Audit Log) to make sure everything is completely safe and transparent.
+*   **The Lecturers (The Pilots):** They guide each flight (Class Session). They quickly declare who got on board (Present) and who didn't (Absent). If there's an emergency schedule change, they log extra classes or adjustments on the fly.
+*   **The Students (The Passengers):** They check their flight statuses (Attendance Percentages) and need a quick way to show if they had a valid passport/ticket for missing a flight (Leave Approvals).
+*   **The Audit Log (The Black Box):** If anyone disputes whether they were present on a flight, we open the "Black Box" (Audit Log) to show exactly who saved the record, when they saved it, and if it was modified. This completely stops disputes and guarantees 100% accountability.
 
-🛠️ The Tech Stack
-I built this using modern, industry-standard tools to ensure it’s fast and reliable:
+---
 
-React 19: For a snappy, modern user interface.
+## ✨ Features Built For Real Life
 
-TypeScript: To keep the code clean and prevent bugs before they happen.
+### 👨‍💼 For Administrators (The System Overseers)
+*   **Full User Management (CRUD):** Easily create, edit, and manage records for lecturers and students.
+*   **Direct Time-Table Mapping:** Assign which lecturer teaches which course, to which section, and at what standard hours.
+*   **Immutability Settings:** Control the **Edit Window** (e.g., 2 days limit). This prevents lecturers from modifying past attendance records without administrative permission, stamping out late-semester adjustments.
+*   **Complete System Audit Trail:** Clear, chronological log of every change. It tracks who performed an update, the old status, the new status, and the precise timestamp.
 
-Tailwind CSS: For that beautiful, professional Dark Mode look.
+### 👩‍🏫 For Lecturers (The Class Directors)
+*   **Rapid Attendance Grid:** A beautifully crafted, visual student list where marking present/absent takes literally seconds.
+*   **Scheduled vs. Unscheduled Sessions:** Shows the lecturer's classes for the current day. If they teach an extra/remedial class outside the standard schedule, they can open an unscheduled period block with safety checks.
+*   **Leave Request Management:** Direct inbox for reviewing student leaves with immediate approval or denial controls.
+*   **Holiday Manager:** Ability to mark a date as a "Non-teaching Day" for their subject, disabling attendance alerts and stopping calendar confusion.
+*   **Class Reports:** Interactive stats that help monitor student eligibility (marking who falls below the mandatory 75% limit).
 
-OGL (WebGL): That cool "Light Ray" effect on the login screen? That’s high-performance graphics at work.
+### 👨‍🎓 For Students (The Learners)
+*   **Personal Attendance Dashboard:** Instant percentage view across all enrolled courses.
+*   **Visual Eligibility Ring:** A smart status indicator—it turns green when safe, but turns yellow or red when attendance falls near or below the mandatory 75% bar.
+*   **Interactive History Logs:** View details for every session, down to who marked them and the history of audits (if any changes were made).
+*   **Digital Leave Submission:** Upload absence reasons along with specific dates to have them evaluated by the respective lecturer.
 
-Mock API Service: I built a custom API layer that stores everything in your browser's LocalStorage. It feels like a real database, but it works instantly without any setup!
+---
 
-🧠 The "Secret Sauce" (How it works)
-The smartest part of this app is its cross-referencing engine.
-Instead of just showing a list, the app constantly compares the College Timetable against the Attendance Records and the Holiday List.
-If a teacher has a class at 10:00 AM on Monday, the app checks: Is it a holiday? No. Is there a record for this? No. Boom. It sends an alert to the lecturer. It’s not just a list—it’s an active assistant.
+## 🛠️ The Tech Stack
 
-📦 Getting Started
-Clone this repo.
-Run npm install.
-Run npm run dev.
-Log in with the mock credentials (found in the login screen's "Mock Credentials" button) to see the different views for Admin, Lecturer, and Student!
+AttendTrack is built using high-performance, industry-standard modern web technologies:
+*   **React 19:** Our frontend state manager, driving fluent user interfaces and reactive component updates.
+*   **TypeScript:** Enforces strict code structures and prevents compile-time errors.
+*   **Tailwind CSS:** A utility-first styling engine providing a clean, dark-mode visual interface with beautiful frosted glass components.
+*   **OGL (WebGL Engine):** Powers the fluid interactive "Light Rays" background on the login screen for an engaging user experience the second they open the app.
+*   **Simulated Backend Persistence (`localStorage`):** The app includes a fully modeled asynchronous API simulator inside `services/api.ts` that persists all data securely in the browser’s Cache storage. It mimics backend latency (using network delays) so that loading animations and error states render exactly like a live back-end.
 
-AttendTrack: https://attendtrack-virid.vercel.app/
+---
+
+## ⚙️ Running the Project Locally
+
+To pull down the project and boot the development environment on your local machine, follow these steps:
+
+### 1. Extract and Install Dependencies
+Open your terminal in the project directory and install the required modules:
+```bash
+npm install
+```
+
+### 2. Start the Local Server
+Run the local Vite development builder:
+```bash
+npm run dev
+```
+ VIsit the address printed in the terminal (usually `http://localhost:3000`) in your favorite browser.
+
+---
+
+## 📂 Codebase Architecture Index
+
+Here is a map of where all the important architectural structures live:
+
+*   📂 `components/` - The visual layer of the application
+    *   📂 `admin/` - Controls settings, audit tracking logs, and admin dashboard panels.
+    *   📂 `lecturer/` - Manages timetables, interactive marking grids, and leave decisions.
+    *   📂 `student/` - Custom personal dashboards, leave builders, and detail modals.
+    *   📂 `ui/` - Atomized building blocks (Buttons, frosted Cards, progress controls, tooltips).
+*   📄 `types.ts` - Central database model schemas containing our custom TypeScript types.
+*   📄 `App.tsx` - App entry point managing routing logic and authorization roles.
+*   📂 `services/`
+    *   📄 `api.ts` - Our simulation database and mock endpoints mapping live CRUD actions onto browser client storage.
+*   📂 `hooks/`
+    *   📄 `useAuth.ts` - Session provider controlling current logins and security roles.

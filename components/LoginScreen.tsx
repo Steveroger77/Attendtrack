@@ -23,7 +23,7 @@ const LoginScreen: React.FC = () => {
   };
 
   return (
-    <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
+    <div className="relative z-20 min-h-screen flex items-center justify-center p-4">
       <div className="absolute top-4 left-4 z-20">
         <Tooltip text="App Features">
             <button

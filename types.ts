@@ -116,6 +116,8 @@ export interface StudentAttendanceHistoryEntry {
 
 export interface SystemSettings {
     edit_window_days: number;
+    required_attendance_percentage: number;
+    warning_attendance_percentage: number;
 }
 
 export interface FullAuditEvent {

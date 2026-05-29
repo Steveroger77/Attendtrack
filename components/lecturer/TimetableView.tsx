@@ -140,7 +140,10 @@ const TimetableView: React.FC = () => {
             {attendanceModalState && (
                 <AttendanceGridModal 
                     isOpen={!!attendanceModalState}
-                    onClose={() => setAttendanceModalState(null)}
+                    onClose={() => {
+                        setAttendanceModalState(null);
+                        fetchWeekData();
+                    }}
                     period={attendanceModalState.period}
                     date={attendanceModalState.date}
                 />

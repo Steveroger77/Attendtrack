@@ -13,6 +13,7 @@ const ReportsView: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const reqPct = mockApi.getRequiredAttendancePercentage();
 
     // Date filter state
     const today = new Date();
@@ -159,7 +160,7 @@ const ReportsView: React.FC = () => {
 
                         <div className="flex items-center justify-between mb-1">
                             <span className="text-base font-medium text-gray-200">Overall Attendance</span>
-                             <span className={`text-xl font-bold ${report.attendance_percentage >= 75 ? 'text-green-400' : 'text-yellow-400'}`}>
+                             <span className={`text-xl font-bold ${report.attendance_percentage >= reqPct ? 'text-green-400' : 'text-yellow-400'}`}>
                                 {report.attendance_percentage}%
                             </span>
                         </div>

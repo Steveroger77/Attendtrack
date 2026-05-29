@@ -14,20 +14,21 @@ const LecturerDashboard: React.FC = () => {
 
   const today = new Date().toISOString().split('T')[0];
 
-  useEffect(() => {
-    const fetchTimetable = async () => {
-      try {
-        setLoading(true);
-        const data = await mockApi.getLecturerTimetable(today);
-        setTimetable(data);
-      } catch (err) {
-        setError((err as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchTimetable();
+  const fetchTimetable = React.useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await mockApi.getLecturerTimetable(today);
+      setTimetable(data);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   }, [today]);
+
+  useEffect(() => {
+    fetchTimetable();
+  }, [fetchTimetable]);
 
   const handleOpenModal = (period: TimetableEntry) => {
     setSelectedPeriod(period);
@@ -35,6 +36,7 @@ const LecturerDashboard: React.FC = () => {
   
   const handleCloseModal = () => {
     setSelectedPeriod(null);
+    fetchTimetable();
   }
 
   return (

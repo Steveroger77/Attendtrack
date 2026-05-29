@@ -98,7 +98,16 @@ const AttendanceGridModal: React.FC<AttendanceGridModalProps> = ({ isOpen, onClo
   const [dirtyRows, setDirtyRows] = useState<Set<number>>(new Set());
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
 
-  const editWindowDays = mockApi.getEditWindowDays();
+  // Real-life PIN session management states
+  const [activePin, setActivePin] = useState<string | null>(null);
+  const [generatingPin, setGeneratingPin] = useState(false);
+  const [pinTimer, setPinTimer] = useState<number>(0);
+  const [editWindowDays, setEditWindowDays] = useState<number>(2);
+
+  useEffect(() => {
+    mockApi.getEditWindowDays().then(setEditWindowDays).catch(console.error);
+  }, []);
+
   const today = new Date(); today.setHours(0,0,0,0);
   const recordDate = new Date(date); recordDate.setHours(0,0,0,0);
 
@@ -106,11 +115,65 @@ const AttendanceGridModal: React.FC<AttendanceGridModalProps> = ({ isOpen, onClo
   const isEditLocked = daysDiff > editWindowDays;
   const daysLeft = Math.max(0, editWindowDays - daysDiff);
 
+  // Load existing active PIN if any
+  useEffect(() => {
+    if (isOpen && user?.role === Role.LECTURER && period) {
+      const loadActivePin = async () => {
+        try {
+          const fetchedPin = await mockApi.getActivePinForTimetable(period.id);
+          if (fetchedPin) {
+            setActivePin(fetchedPin);
+            setPinTimer(90); // 90s countdown fallback simulation
+          } else {
+            setActivePin(null);
+          }
+        } catch (e) {
+          console.error("Failed to load active PIN", e);
+        }
+      };
+      loadActivePin();
+    }
+  }, [isOpen, user, period]);
+
+  // Handle countdown timer
+  useEffect(() => {
+    if (activePin && pinTimer > 0) {
+      const interval = setInterval(() => {
+        setPinTimer(prev => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    } else if (pinTimer === 0 && activePin) {
+      setActivePin(null);
+    }
+  }, [pinTimer, activePin]);
+
+  const handleGeneratePin = async () => {
+    if (isEditLocked || generatingPin) return;
+    setGeneratingPin(true);
+    try {
+      const pin = await mockApi.generateSessionPin(period.id);
+      setActivePin(pin);
+      setPinTimer(120); // 2 minutes active code timer
+    } catch (err) {
+      setError("Failed to generate Check-In PIN: " + (err as Error).message);
+    } finally {
+      setGeneratingPin(false);
+    }
+  };
+
   const fetchLecturerData = useCallback(async () => {
     try {
       setLoading(true); setError(null);
       const data = await mockApi.getSectionStudents(period.section_id, date, period.period_index);
+      
+      const unmarkedIds = data.filter(s => s.status === undefined).map(s => s.enrollment_id);
       setStudents(data.map(s => ({ ...s, status: s.status || AttendanceStatus.PRESENT })));
+      
+      if (unmarkedIds.length > 0) {
+        setDirtyRows(new Set(unmarkedIds));
+      } else {
+        setDirtyRows(new Set());
+      }
     } catch (err) { setError((err as Error).message); } 
     finally { setLoading(false); }
   }, [period.section_id, date, period.period_index]);
@@ -199,10 +262,32 @@ const AttendanceGridModal: React.FC<AttendanceGridModalProps> = ({ isOpen, onClo
     }
   };
 
+  const handleModalClose = async () => {
+    if (dirtyRows.size > 0 && !isEditLocked && user?.role === Role.LECTURER && !saving) {
+      setSaving(true);
+      setError(null);
+      const itemsToSave = students
+          .filter(s => dirtyRows.has(s.enrollment_id))
+          .map(s => ({ enrollment_id: s.enrollment_id, status: s.status! }));
+      
+      try {
+          await mockApi.bulkMarkAttendance(date, period.period_index, itemsToSave);
+          setDirtyRows(new Set());
+      } catch (err) {
+          console.error("Auto-save on close failed:", err);
+      } finally {
+          setSaving(false);
+          onClose();
+      }
+    } else {
+      onClose();
+    }
+  };
+
   const title = `${period.course.title} (${period.course.code}) - Section ${period.section.section_name}`;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={title}>
+    <Modal isOpen={isOpen} onClose={handleModalClose} title={title}>
       {user?.role === Role.STUDENT ? (
         <StudentAttendanceView details={studentDetails} loading={loading} error={error}/>
       ) : (
@@ -219,11 +304,65 @@ const AttendanceGridModal: React.FC<AttendanceGridModalProps> = ({ isOpen, onClo
               </div>
             </Tooltip>
           </div>
+
+          {/* Real-Life Classroom Self Registration PIN */}
+          {!isEditLocked && (
+            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between p-3 bg-gradient-to-r from-purple-950/30 to-indigo-950/30 border border-purple-500/20 rounded-lg gap-4">
+              <div>
+                <p className="text-sm font-semibold text-gray-200">Classroom Self-Registration PIN</p>
+                <p className="text-xs text-gray-400">
+                  Broadcast this PIN to your students to let them securely enter attendance on their dashboard.
+                </p>
+              </div>
+              <div className="flex items-center gap-3 self-end md:self-auto">
+                {activePin ? (
+                  <div className="flex items-center gap-3 bg-black/50 px-3 py-1.5 border border-green-500/30 rounded-lg shadow">
+                    <span className="text-xl font-mono font-black text-green-400 tracking-widest leading-none">{activePin}</span>
+                    <span className="text-xs font-mono text-gray-400 border-l border-white/10 pl-3 leading-none">
+                      {Math.floor(pinTimer / 60)}:{(pinTimer % 60).toString().padStart(2, '0')}
+                    </span>
+                  </div>
+                ) : (
+                  <Button variant="secondary" onClick={handleGeneratePin} disabled={generatingPin} className="!text-xs !py-1.5">
+                    {generatingPin ? 'Generating...' : '🔑 Generate Check-In PIN'}
+                  </Button>
+                )}
+                {activePin && (
+                  <Button variant="secondary" onClick={handleGeneratePin} className="!text-xs !py-1.5 border border-white/5 bg-black/20 text-gray-400">
+                     Refresh Code
+                  </Button>
+                )}
+              </div>
+            </div>
+          )}
+
            <div className="flex flex-wrap items-center gap-2">
                 <Button variant="secondary" onClick={() => handleBulkMark(AttendanceStatus.PRESENT)} disabled={isEditLocked}>Mark Selected Present</Button>
                 <Button variant="secondary" onClick={() => handleBulkMark(AttendanceStatus.ABSENT)} disabled={isEditLocked}>Mark Selected Absent</Button>
                 <Button variant="secondary" onClick={() => handleBulkMark(AttendanceStatus.EXCUSED)} disabled={isEditLocked}>Mark Selected Excused</Button>
                 <div className="flex-grow"></div>
+                <Tooltip text="Refresh student list (picks up student self-check-ins instantly)">
+                  <Button 
+                      variant="secondary" 
+                      onClick={fetchLecturerData} 
+                      disabled={loading} 
+                      className="!p-0 w-10 h-10 !rounded-full flex items-center justify-center shrink-0 border border-white/10 hover:bg-white/5 hover:border-white/20 mr-2 shadow-inner transition-transform duration-200 active:scale-95"
+                  >
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        className={`h-5 w-5 shrink-0 ${loading ? 'animate-spin' : ''}`} 
+                        fill="none" 
+                        viewBox="0 0 24 24" 
+                        stroke="currentColor" 
+                        strokeWidth={2.5}
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                      >
+                        <path d="M3 12a9 9 0 0 1 15-7l3 3M21 3v5h-5" />
+                        <path d="M21 12a9 9 0 0 1-15 7l-3-3M3 21v-5h5" />
+                      </svg>
+                  </Button>
+                </Tooltip>
                 <Button onClick={handleSave} disabled={dirtyRows.size === 0 || saving || isEditLocked}>
                     {saving ? 'Saving...' : `Save ${dirtyRows.size > 0 ? `(${dirtyRows.size})` : ''} Changes`}
                 </Button>

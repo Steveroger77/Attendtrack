@@ -7,6 +7,8 @@ import LecturerPortal from './components/LecturerPortal';
 import StudentPortal from './components/StudentPortal';
 import AdminPortal from './components/AdminPortal';
 import LightRays from './components/ui/LightRays';
+import FlappingInsects from './components/ui/FlappingInsects';
+import NightCityLandscape from './components/ui/NightCityLandscape';
 import ErrorBoundary from './components/ErrorBoundary';
 // FIX: Import AuthContext to be used in the provider.
 import { AuthContext } from './hooks/useAuth';
@@ -87,7 +89,8 @@ const App: React.FC = () => {
       <div className="min-h-screen bg-black">
         {!currentUser ? (
           <div className="relative w-full h-screen overflow-hidden">
-             <LightRays
+            <NightCityLandscape />
+            <LightRays
                 raysOrigin="top-center"
                 raysColor="#ffffff"
                 raysSpeed={1.0}
@@ -97,9 +100,11 @@ const App: React.FC = () => {
                 mouseInfluence={0.1}
                 noiseAmount={0.05}
                 distortion={0.02}
-                className="absolute inset-0 z-0"
+                className="absolute inset-0 z-10"
               />
+            <FlappingInsects layer="background" />
             <LoginScreen />
+            <FlappingInsects layer="foreground" />
           </div>
         ) : (
           <ErrorBoundary>

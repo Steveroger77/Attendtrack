@@ -33,6 +33,11 @@ const StudentCourseDetailModal: React.FC<StudentCourseDetailModalProps> = ({ isO
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'monthly' | 'daily'>('monthly');
+  const [reqPct, setReqPct] = useState<number>(75);
+
+  useEffect(() => {
+    mockApi.getRequiredAttendancePercentage().then(setReqPct).catch(console.error);
+  }, []);
 
   useEffect(() => {
     if (!isOpen || !user) return;
@@ -100,7 +105,7 @@ const StudentCourseDetailModal: React.FC<StudentCourseDetailModalProps> = ({ isO
               <Card key={month} className="p-4">
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="font-bold text-lg text-gray-200">{month}</h3>
-                  <span className={`text-lg font-bold ${percentage >= 75 ? 'text-green-400' : 'text-yellow-400'}`}>{percentage}%</span>
+                  <span className={`text-lg font-bold ${percentage >= reqPct ? 'text-green-400' : 'text-yellow-400'}`}>{percentage}%</span>
                 </div>
                 <ProgressBar percentage={percentage} />
                 <p className="text-xs text-gray-500 text-right mt-1">{attended} / {stats.total} classes attended</p>

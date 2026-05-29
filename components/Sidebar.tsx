@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { Role } from '../types';
 import { ICONS } from '../constants';
+import { Server } from 'lucide-react';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -120,6 +121,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, page, se
             <li><NavLink icon={ICONS.user} label="Users" target="users" currentPage={page} setPage={setPage} /></li>
             <li><NavLink icon={ICONS.assignments} label="Assignments" target="assignments" currentPage={page} setPage={setPage} /></li>
             <li><NavLink icon={ICONS.upload} label="Data Import" target="import" currentPage={page} setPage={setPage} /></li>
+            <li><NavLink icon={<Server className="h-6 w-6 text-gray-300" />} label="Deployment Hub" target="deployment" currentPage={page} setPage={setPage} /></li>
             <li><NavLink icon={ICONS.admin} label="Settings" target="settings" currentPage={page} setPage={setPage} /></li>
             <li><NavLink icon={ICONS.clipboard} label="Audit Log" target="audit" currentPage={page} setPage={setPage} /></li>
         </>

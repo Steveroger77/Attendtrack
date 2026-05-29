@@ -102,31 +102,32 @@ const MarkingView: React.FC = () => {
     const [isHoliday, setIsHoliday] = useState(false);
     const { user } = useAuth();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (!user) return;
-            setLoading(true);
-            setError(null);
-            setIsHoliday(false);
-            try {
-                const [coursesData, timetableData, holidaysData] = await Promise.all([
-                    mockApi.getLecturerCourses(),
-                    mockApi.getLecturerTimetable(date),
-                    mockApi.getLecturerHolidays(user.id)
-                ]);
-                setCourses(coursesData);
-                setTimetable(timetableData);
-                 if (holidaysData.some(h => h.date === date)) {
-                    setIsHoliday(true);
-                }
-            } catch (err) {
-                setError((err as Error).message);
-            } finally {
-                setLoading(false);
+    const fetchData = React.useCallback(async () => {
+        if (!user) return;
+        setLoading(true);
+        setError(null);
+        setIsHoliday(false);
+        try {
+            const [coursesData, timetableData, holidaysData] = await Promise.all([
+                mockApi.getLecturerCourses(),
+                mockApi.getLecturerTimetable(date),
+                mockApi.getLecturerHolidays(user.id)
+            ]);
+            setCourses(coursesData);
+            setTimetable(timetableData);
+             if (holidaysData.some(h => h.date === date)) {
+                setIsHoliday(true);
             }
-        };
-        fetchData();
+        } catch (err) {
+            setError((err as Error).message);
+        } finally {
+            setLoading(false);
+        }
     }, [date, user]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
     
     const handleOpenModal = (period: TimetableEntry) => {
         setModalPeriod(period);
@@ -181,7 +182,10 @@ const MarkingView: React.FC = () => {
             {modalPeriod && (
                 <AttendanceGridModal
                     isOpen={!!modalPeriod}
-                    onClose={() => setModalPeriod(null)}
+                    onClose={() => {
+                        setModalPeriod(null);
+                        fetchData();
+                    }}
                     period={modalPeriod}
                     date={date}
                 />
