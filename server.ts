@@ -30,7 +30,27 @@ const app = express();
 app.use(express.json());
 
 const PORT = 3000;
-const DB_FILE = path.join(process.cwd(), "server-db.json");
+
+const getDbPath = (): string => {
+  const possiblePaths = [
+    path.join(process.cwd(), "server-db.json"),
+    "/workspace/server-db.json"
+  ];
+  if (typeof __dirname !== "undefined") {
+    possiblePaths.push(path.join(__dirname, "../server-db.json"));
+    possiblePaths.push(path.join(__dirname, "server-db.json"));
+  }
+  for (const p of possiblePaths) {
+    try {
+      if (fs.existsSync(p)) {
+        return p;
+      }
+    } catch (_) {}
+  }
+  return path.join(process.cwd(), "server-db.json");
+};
+
+const DB_FILE = getDbPath();
 
 // Define extended Request interface to store authenticated user
 interface AuthRequest extends express.Request {
@@ -340,9 +360,28 @@ app.post("/api/auth/logout", (req, res) => {
 });
 
 app.get("/api/auth/mock-login-details", (req, res) => {
-  // Avoid exposing password hashes, just return college_id & password
-  const mapped = db.users.map(({ name, college_id, password, role }) => ({ name, college_id, password, role }));
-  return res.json(mapped);
+  try {
+    const usersList = (db && db.users) || [];
+    const validUsers = usersList.filter(u => u && u.college_id);
+    const sourceUsers = validUsers.length > 0 ? validUsers : initialUsers;
+    
+    const mapped = sourceUsers.map(u => ({
+      name: u.name || "Unknown User",
+      college_id: u.college_id,
+      password: u.password || `${u.college_id.toLowerCase()}pass`,
+      role: u.role || Role.STUDENT
+    }));
+    return res.json(mapped);
+  } catch (error) {
+    console.error("Error in mock-login-details endpoint:", error);
+    const mapped = initialUsers.map(u => ({
+      name: u.name,
+      college_id: u.college_id,
+      password: u.password,
+      role: u.role
+    }));
+    return res.json(mapped);
+  }
 });
 
 // --- SYSTEM SETTINGS ---
