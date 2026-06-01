@@ -35,18 +35,34 @@ const CopyButton: React.FC<{ textToCopy: string }> = ({ textToCopy }) => {
 };
 
 // Module-level cache to make retrieval instantaneous on subsequent openings
-let cachedLogins: MockLoginCredential[] | null = null;
+const FALLBACK_LOGINS: MockLoginCredential[] = [
+  { name: 'tanguturi prakasam panthulu', college_id: 'L001', role: Role.LECTURER, password: 'l001pass' },
+  { name: 'veereham bhakalam panthulu', college_id: 'L002', role: Role.LECTURER, password: 'l002pass' },
+  { name: 'pingali venkayya', college_id: 'L003', role: Role.LECTURER, password: 'l003pass' },
+  { name: 'bossu', college_id: 'L004', role: Role.LECTURER, password: 'l004pass' },
+  { name: 'heisenberg', college_id: 'L005', role: Role.LECTURER, password: 'l005pass' },
+  { name: 'amit', college_id: 'BT2023001', role: Role.STUDENT, password: 'bt2023001pass' },
+  { name: 'jon snow', college_id: 'BT2023002', role: Role.STUDENT, password: 'bt2023002pass' },
+  { name: 'pedhodu', college_id: 'BT2023003', role: Role.STUDENT, password: 'bt2023003pass' },
+  { name: 'chinnodu', college_id: 'BT2023004', role: Role.STUDENT, password: 'bt2023004pass' },
+  { name: 'zukir', college_id: 'BT2023005', role: Role.STUDENT, password: 'bt2023005pass' },
+  { name: 'relangi Mavayya', college_id: 'ADMIN01', role: Role.ADMIN, password: 'admin01pass' }
+];
+
+let cachedLogins: MockLoginCredential[] | null = FALLBACK_LOGINS;
 let isPrefetching = false;
 
 // Proactively kick off prefetch when the bundler loads this file
 const prefetchMockLogins = async () => {
-  if (cachedLogins || isPrefetching) return;
+  if (isPrefetching) return;
   isPrefetching = true;
   try {
     const data = await mockApi.getMockLoginDetails();
-    cachedLogins = data;
+    if (data && data.length > 0) {
+      cachedLogins = data;
+    }
   } catch (e) {
-    console.warn('Silent prefetch failed, will retry on open:', e);
+    console.warn('Silent live prefetch failed, using offline fallback credentials:', e);
   } finally {
     isPrefetching = false;
   }
@@ -54,27 +70,20 @@ const prefetchMockLogins = async () => {
 prefetchMockLogins();
 
 const MockLoginModal: React.FC<MockLoginModalProps> = ({ isOpen, onClose }) => {
-  const [logins, setLogins] = useState<MockLoginCredential[]>(cachedLogins || []);
-  const [loading, setLoading] = useState(!cachedLogins);
+  const [logins, setLogins] = useState<MockLoginCredential[]>(cachedLogins || FALLBACK_LOGINS);
+  const [loading, setLoading] = useState(false); // No loading spinner needed since we have fallbacks immediately
 
   useEffect(() => {
     if (isOpen) {
-      if (cachedLogins) {
-        setLogins(cachedLogins);
-        setLoading(false);
-        return;
-      }
-
       const fetchLogins = async () => {
-        setLoading(true);
         try {
           const data = await mockApi.getMockLoginDetails();
-          cachedLogins = data;
-          setLogins(data);
+          if (data && data.length > 0) {
+            cachedLogins = data;
+            setLogins(data);
+          }
         } catch (error) {
-          console.error("Failed to fetch mock logins", error);
-        } finally {
-          setLoading(false);
+          console.warn("Failed to refresh mock logins from DB, continuing with cached/fallback credentials", error);
         }
       };
       fetchLogins();
