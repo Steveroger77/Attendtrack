@@ -171,7 +171,7 @@ const UserManagementView: React.FC = () => {
                         ) : (
                             filteredUsers.map(user => (
                                 <tr key={user.id} className="border-b border-purple-900/60 hover:bg-purple-500/10">
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-200 whitespace-nowrap">{user.name}</th>
+                                    <th scope="row" className="px-6 py-4 font-medium text-gray-200 whitespace-nowrap font-sans-default">{user.name}</th>
                                     <td className="px-6 py-4 font-mono text-gray-400">{user.college_id}</td>
                                     <td className="px-6 py-4">{user.email}</td>
                                     <td className="px-6 py-4"><RoleBadge role={user.role} /></td>

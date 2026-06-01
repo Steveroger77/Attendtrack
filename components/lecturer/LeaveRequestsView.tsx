@@ -13,9 +13,14 @@ const LeaveStatusBadge: React.FC<{ status: LeaveRequestStatus }> = ({ status }) 
         [LeaveRequestStatus.APPROVED]: 'bg-green-500/20 text-green-300 border-green-500/30',
         [LeaveRequestStatus.DENIED]: 'bg-red-500/20 text-red-300 border-red-500/30',
     };
+    const text = {
+        [LeaveRequestStatus.PENDING]: 'Pending',
+        [LeaveRequestStatus.APPROVED]: 'Approved',
+        [LeaveRequestStatus.DENIED]: 'Denied',
+    };
     return (
         <span className={`px-2 py-1 text-xs font-semibold rounded-md border ${styles[status]}`}>
-            {status}
+            {text[status]}
         </span>
     );
 };
@@ -95,7 +100,7 @@ const LeaveRequestsView: React.FC = () => {
                 <p className="text-red-400">{error}</p>
             ) : requestsToDisplay.length === 0 ? (
                 <Card className="p-8 text-center">
-                    <h3 className="text-xl font-semibold">No {activeTab} leave requests.</h3>
+                    <h3 className="text-xl font-semibold font-sans-default">No {activeTab} leave requests.</h3>
                 </Card>
             ) : (
                 <div className="space-y-4">

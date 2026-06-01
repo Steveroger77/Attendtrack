@@ -3,6 +3,7 @@ import { useAuth } from '../hooks/useAuth';
 import { Role } from '../types';
 import { ICONS } from '../constants';
 import { Server } from 'lucide-react';
+import FuturisticLogo from './ui/FuturisticLogo';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -134,10 +135,10 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen, page, se
         ref={sidebar}
         className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-auto no-scrollbar w-64 lg:w-20 lg:hover:w-64 shrink-0 bg-black/20 backdrop-blur-2xl border-r border-white/10 p-4 transition-[width] duration-300 ease-in-out group ${ sidebarOpen ? 'translate-x-0' : '-translate-x-64'}`}
     >
-        <div className="flex justify-between mb-10 pr-3 sm:px-2 items-center">
-            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 transition-opacity duration-200 ease-in-out delay-150 lg:opacity-0 lg:group-hover:opacity-100">
-                AttendTrack
-            </h1>
+        <div className="flex justify-between mb-10 pr-3 sm:px-2 items-center overflow-hidden h-6">
+            <div className="transition-opacity duration-200 ease-in-out delay-150 lg:opacity-0 lg:group-hover:opacity-100 flex items-center">
+                <FuturisticLogo size="sm" showDot={false} className="select-none" />
+            </div>
         </div>
 
       <nav>

@@ -91,7 +91,7 @@ const StudentTimetableView: React.FC = () => {
                                     key={period.id} 
                                     className="p-3 text-xs"
                                 >
-                                    <p className="font-bold text-gray-200">{period.course.title}</p>
+                                    <p className="font-bold text-gray-200 font-sans-default">{period.course.title}</p>
                                     <p className="text-gray-400">{period.course.code} - Sec {period.section.section_name}</p>
                                     <p className="text-right text-gray-500 font-mono mt-2">{period.start_time}</p>
                                 </Card>

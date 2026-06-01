@@ -116,7 +116,7 @@ const AuditLogView: React.FC = () => {
                             onClick={handleExportCSV} 
                             disabled={filteredLogs.length === 0 || loading} 
                             variant="secondary"
-                            className="flex items-center gap-2"
+                            className="flex items-center gap-2 font-sans-default"
                         >
                             {ICONS.export}
                             Export Audit Ledger

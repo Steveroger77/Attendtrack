@@ -92,10 +92,10 @@ const TimetableView: React.FC = () => {
                     <h1 className="text-3xl font-bold text-gray-200 mb-2">Weekly Timetable</h1>
                     <p className="text-lg text-gray-500">{weekDateRange}</p>
                 </div>
-                <div className="flex gap-2">
-                    <Button variant="secondary" onClick={() => setIsHolidayModalOpen(true)}>Manage Holidays</Button>
-                    <Button variant="secondary" onClick={handlePrevWeek}>&larr; Previous</Button>
-                    <Button variant="secondary" onClick={handleNextWeek}>Next &rarr;</Button>
+                <div className="flex gap-2 font-sans-default">
+                    <Button variant="secondary" className="font-sans-default" onClick={() => setIsHolidayModalOpen(true)}>Manage Holidays</Button>
+                    <Button variant="secondary" className="font-sans-default" onClick={handlePrevWeek}>&larr; Previous</Button>
+                    <Button variant="secondary" className="font-sans-default" onClick={handleNextWeek}>Next &rarr;</Button>
                 </div>
             </div>
 
@@ -126,7 +126,7 @@ const TimetableView: React.FC = () => {
                                     </div>
 
                                     <div onClick={() => setAttendanceModalState({period, date: dateStr})}>
-                                        <p className="font-bold text-gray-200">{period.course.title}</p>
+                                        <p className="font-bold text-gray-200 font-sans-default">{period.course.title}</p>
                                         <p className="text-gray-400">{period.course.code} - Sec {period.section.section_name}</p>
                                         <p className="text-right text-gray-500 font-mono mt-2">{period.start_time}</p>
                                     </div>

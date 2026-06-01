@@ -3,6 +3,7 @@ import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 import { User, Role, Course, Section } from '../../types';
 import { mockApi } from '../../services/api';
+import CustomSelect from '../ui/CustomSelect';
 
 interface CourseSection {
   course: Course;
@@ -116,12 +117,16 @@ const UserFormModal: React.FC<UserFormModalProps> = ({ isOpen, onClose, onSave, 
               </div>
           </div>
           <div>
-            <label htmlFor="role" className="block text-sm font-medium text-gray-300">Role</label>
-            <select name="role" id="role" value={formData.role} onChange={handleChange} className={inputClasses}>
-              {Object.values(Role).map(role => (
-                <option key={role} value={role}>{role}</option>
-              ))}
-            </select>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Role</label>
+            <CustomSelect
+              name="role"
+              id="role"
+              value={formData.role}
+              onChange={(e) => {
+                setFormData(prev => ({ ...prev, role: e.target.value as Role }));
+              }}
+              options={Object.values(Role).map(role => ({ value: role, label: role }))}
+            />
           </div>
           
           {formData.role === Role.LECTURER && (

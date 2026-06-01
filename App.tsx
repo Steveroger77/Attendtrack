@@ -7,7 +7,6 @@ import LecturerPortal from './components/LecturerPortal';
 import StudentPortal from './components/StudentPortal';
 import AdminPortal from './components/AdminPortal';
 import LightRays from './components/ui/LightRays';
-import FlappingInsects from './components/ui/FlappingInsects';
 import NightCityLandscape from './components/ui/NightCityLandscape';
 import ErrorBoundary from './components/ErrorBoundary';
 // FIX: Import AuthContext to be used in the provider.
@@ -102,9 +101,7 @@ const App: React.FC = () => {
                 distortion={0.02}
                 className="absolute inset-0 z-10"
               />
-            <FlappingInsects layer="background" />
             <LoginScreen />
-            <FlappingInsects layer="foreground" />
           </div>
         ) : (
           <ErrorBoundary>

@@ -98,17 +98,17 @@ const LecturerAssignmentsView: React.FC = () => {
                 <table className="w-full min-w-[800px] text-sm text-left text-gray-300">
                     <thead className="text-xs text-gray-400 uppercase bg-gray-900/70 backdrop-blur-sm sticky top-0">
                         <tr>
-                            <th scope="col" className="px-6 py-3 sticky left-0 bg-gray-900/70 backdrop-blur-sm">Course / Section</th>
+                            <th scope="col" className="px-6 py-3 sticky left-0 bg-gray-900/70 backdrop-blur-sm font-sans-default">Course / Section</th>
                             {lecturers.map(lecturer => (
-                                <th key={lecturer.id} scope="col" className="px-6 py-3 text-center">{lecturer.name}</th>
+                                <th key={lecturer.id} scope="col" className="px-6 py-3 text-center font-sans-default">{lecturer.name}</th>
                             ))}
-                            <th scope="col" className="px-6 py-3 text-center">Unassigned</th>
+                            <th scope="col" className="px-6 py-3 text-center font-sans-default">Unassigned</th>
                         </tr>
                     </thead>
                     <tbody>
                         {courseSections.map(({ course, section }) => (
                             <tr key={section.id} className="border-b border-purple-900/60 hover:bg-purple-500/10">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-200 whitespace-nowrap sticky left-0 bg-black/80 backdrop-blur-sm">
+                                <th scope="row" className="px-6 py-4 font-medium text-gray-200 whitespace-nowrap sticky left-0 bg-black/80 backdrop-blur-sm font-sans-default">
                                     {course.title} <span className="text-gray-500">({section.section_name})</span>
                                 </th>
                                 {lecturers.map(lecturer => (

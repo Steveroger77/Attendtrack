@@ -49,7 +49,7 @@ const LecturerDashboard: React.FC = () => {
       
       {!loading && timetable.length === 0 && (
           <Card className="p-8 text-center">
-              <h3 className="text-xl font-semibold">No classes scheduled for today.</h3>
+              <h3 className="text-xl font-semibold font-sans-default">No classes scheduled for today.</h3>
           </Card>
       )}
 
@@ -63,7 +63,7 @@ const LecturerDashboard: React.FC = () => {
                   </span>
                    <span className="text-sm font-mono text-gray-400">{period.start_time} - {period.end_time}</span>
               </div>
-              <h3 className="text-lg font-bold mt-3">{period.course.title}</h3>
+              <h3 className="text-lg font-bold mt-3 font-sans-default">{period.course.title}</h3>
               <p className="text-sm text-gray-500">{period.course.code} - Section {period.section.section_name}</p>
             </div>
             <Button className="w-full mt-4" onClick={() => handleOpenModal(period)}>

@@ -58,7 +58,7 @@ const DashboardView: React.FC = () => {
       
       {!loading && missedAttendance.length > 0 && (
           <div className="mb-8">
-              <h2 className="text-2xl font-bold text-yellow-400 mb-4">Pending Actions: Missed Attendance</h2>
+              <h2 className="text-2xl font-bold text-yellow-400 mb-4 font-sans-default">Pending Actions: Missed Attendance</h2>
               <Card className="p-4 bg-yellow-500/10 backdrop-blur-xl border-yellow-500/30">
                   <ul className="space-y-3">
                       {missedAttendance.map(({ period, date }, index) => (
@@ -78,10 +78,10 @@ const DashboardView: React.FC = () => {
       )}
 
       <div>
-        <h2 className="text-2xl font-bold text-gray-200 mb-4">Today's Schedule: {new Date().toDateString()}</h2>
+        <h2 className="text-2xl font-bold text-gray-200 mb-4 font-sans-default">Today's Schedule: {new Date().toDateString()}</h2>
         {!loading && timetable.length === 0 && (
             <Card className="p-8 text-center">
-                <h3 className="text-xl font-semibold">No classes scheduled for today.</h3>
+                <h3 className="text-xl font-semibold font-sans-default">No classes scheduled for today.</h3>
             </Card>
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -94,7 +94,7 @@ const DashboardView: React.FC = () => {
                     </span>
                      <span className="text-sm font-mono text-gray-400">{period.start_time} - {period.end_time}</span>
                 </div>
-                <h3 className="text-lg font-bold mt-3">{period.course.title}</h3>
+                <h3 className="text-lg font-bold mt-3 font-sans-default">{period.course.title}</h3>
                 <p className="text-sm text-gray-500">{period.course.code} - Section {period.section.section_name}</p>
               </div>
               <Button className="w-full mt-4" onClick={() => handleOpenModal(period, today)}>

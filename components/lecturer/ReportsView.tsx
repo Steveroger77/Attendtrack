@@ -116,9 +116,9 @@ const ReportsView: React.FC = () => {
                             <input type="date" id="endDate" value={endDate} onChange={e => setEndDate(e.target.value)} min={startDate} className="mt-1 block w-full bg-black/30 border border-white/10 rounded-lg shadow-sm text-sm p-2 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500" />
                         </div>
                         <div className="flex items-center gap-2 pt-5">
-                            <Button variant="ghost" className="!text-xs !py-1" onClick={() => setPresetDateRange(7)}>Last 7 Days</Button>
-                            <Button variant="ghost" className="!text-xs !py-1" onClick={() => setPresetDateRange(30)}>Last 30 Days</Button>
-                            <Button variant="ghost" className="!text-xs !py-1" onClick={setThisMonth}>This Month</Button>
+                            <Button variant="ghost" className="!text-xs !py-1 font-sans-default" onClick={() => setPresetDateRange(7)}>Last 7 Days</Button>
+                            <Button variant="ghost" className="!text-xs !py-1 font-sans-default" onClick={() => setPresetDateRange(30)}>Last 30 Days</Button>
+                            <Button variant="ghost" className="!text-xs !py-1 font-sans-default" onClick={setThisMonth}>This Month</Button>
                         </div>
                     </div>
 
@@ -134,7 +134,7 @@ const ReportsView: React.FC = () => {
                                 className="w-full md:w-64 pl-10 pr-4 py-2 bg-black/30 border border-white/10 rounded-lg focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
                             />
                         </div>
-                        <Button onClick={handleExport} disabled={filteredReports.length === 0 || loading} variant="secondary">
+                        <Button onClick={handleExport} disabled={filteredReports.length === 0 || loading} variant="secondary" className="font-sans-default">
                             {ICONS.export}
                             Export CSV
                         </Button>

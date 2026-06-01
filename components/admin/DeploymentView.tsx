@@ -219,8 +219,8 @@ app.on('window-all-closed', () => {
                             <Globe className="h-6 w-6 font-bold" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold text-white">1. Live Web Portal</h2>
-                            <p className="text-xs text-gray-500 font-medium">Accessible by all instructors & students online</p>
+                            <h2 className="text-xl font-bold text-white font-sans-default">1. Live Web Portal</h2>
+                            <p className="text-xs text-gray-500 font-medium font-sans-default">Accessible by all instructors & students online</p>
                         </div>
                     </div>
                     
@@ -248,7 +248,7 @@ app.on('window-all-closed', () => {
                                 <QrCode className="h-4 w-4 font-bold" />
                             </div>
                             <div className="space-y-1">
-                                <h3 className="text-sm font-bold text-purple-300">Quick QR-code Generation</h3>
+                                <h3 className="text-sm font-bold text-purple-300 font-sans-default">Quick QR-code Generation</h3>
                                 <p className="text-xs text-gray-400 leading-relaxed font-medium">
                                     Print this Portal URL on physical lecturer handouts or classroom walls to let students perform rapid attendance check-ins using smartphones!
                                 </p>
@@ -264,8 +264,8 @@ app.on('window-all-closed', () => {
                             <Laptop className="h-6 w-6 font-bold" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold text-white">2. PC & Laptop Native Setup</h2>
-                            <p className="text-xs text-gray-500 font-medium">Run as permanent Desktop App in college labs</p>
+                            <h2 className="text-xl font-bold text-white font-sans-default">2. PC & Laptop Native Setup</h2>
+                            <p className="text-xs text-gray-500 font-medium font-sans-default">Run as permanent Desktop App in college labs</p>
                         </div>
                     </div>
                     
@@ -273,13 +273,13 @@ app.on('window-all-closed', () => {
                         <div className="flex bg-black/40 border border-white/10 p-1 rounded-lg">
                             <button 
                                 onClick={() => setActiveTab('pwa')}
-                                className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === 'pwa' ? 'bg-purple-900/30 text-purple-300 border border-purple-500/20 shadow' : 'text-gray-400 hover:text-gray-300'}`}
+                                className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all font-sans-default ${activeTab === 'pwa' ? 'bg-purple-900/30 text-purple-300 border border-purple-500/20 shadow' : 'text-gray-400 hover:text-gray-300'}`}
                             >
                                 Desktop Shortcut (PWA)
                             </button>
                             <button 
                                 onClick={() => setActiveTab('electron')}
-                                className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${activeTab === 'electron' ? 'bg-purple-900/30 text-purple-300 border border-purple-500/20 shadow' : 'text-gray-400 hover:text-gray-300'}`}
+                                className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all font-sans-default ${activeTab === 'electron' ? 'bg-purple-900/30 text-purple-300 border border-purple-500/20 shadow' : 'text-gray-400 hover:text-gray-300'}`}
                             >
                                 Double-Click EXE Wrapper
                             </button>
@@ -344,8 +344,8 @@ app.on('window-all-closed', () => {
                             <FileJson className="h-6 w-6 font-bold" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold text-white">3. System Backups & Recovery</h2>
-                            <p className="text-xs text-gray-500 font-medium">Safeguard, download, or migrate your local structures</p>
+                            <h2 className="text-xl font-bold text-white font-sans-default">3. System Backups & Recovery</h2>
+                            <p className="text-xs text-gray-500 font-medium font-sans-default">Safeguard, download, or migrate your local structures</p>
                         </div>
                     </div>
                     
@@ -353,8 +353,8 @@ app.on('window-all-closed', () => {
                         <p className="text-sm text-gray-400 leading-relaxed font-medium">
                             AttendTrack stores schedules and logs in the local web client DB to secure high speed. You can download complete backups at the end of semesters and restore them on other PCs instantly.
                         </p>
-
-                        <div className="grid grid-cols-3 gap-2 text-center py-2 border-y border-white/5">
+ 
+                        <div className="grid grid-cols-3 gap-2 text-center py-2 border-y border-white/5 font-sans-default">
                             <div className="p-2">
                                 <p className="text-xl font-bold text-purple-400">{stats.users}</p>
                                 <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Enrolled Users</p>
@@ -370,11 +370,11 @@ app.on('window-all-closed', () => {
                         </div>
 
                         <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 pt-2">
-                            <Button onClick={handleExportBackup} className="flex-1 filter saturate-105 font-bold">
+                            <Button onClick={handleExportBackup} className="flex-1 filter saturate-105 font-bold font-sans-default">
                                 <Download className="h-4 w-4 mr-2" />
                                 Save Backup (.json)
                             </Button>
-                            <label className="flex-1 flex items-center justify-center px-4 py-2 bg-gray-900 hover:bg-gray-800 border border-white/10 hover:border-white/20 active:scale-95 text-sm font-bold rounded-xl text-gray-200 cursor-pointer transition-all">
+                            <label className="flex-1 flex items-center justify-center px-4 py-2 bg-gray-900 hover:bg-gray-800 border border-white/10 hover:border-white/20 active:scale-95 text-sm font-bold rounded-xl text-gray-200 cursor-pointer transition-all font-sans-default">
                                 <Upload className="h-4 w-4 mr-2" />
                                 Load Backup (.json)
                                 <input 
@@ -395,8 +395,8 @@ app.on('window-all-closed', () => {
                             <Server className="h-6 w-6 font-bold" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold text-white">4. Secure Institution Self-Hosting</h2>
-                            <p className="text-xs text-gray-500 font-medium">Run AttendTrack on local university servers</p>
+                            <h2 className="text-xl font-bold text-white font-sans-default">4. Secure Institution Self-Hosting</h2>
+                            <p className="text-xs text-gray-500 font-medium font-sans-default">Run AttendTrack on local university servers</p>
                         </div>
                     </div>
                     
@@ -410,7 +410,7 @@ app.on('window-all-closed', () => {
                                 <span className="text-xs text-gray-500 font-mono flex items-center font-semibold">
                                     <Terminal className="h-3 w-3 mr-1" /> Custom Dockerfile Setup
                                 </span>
-                                <Button onClick={handleCopyDocker} variant="secondary" className="!p-1 h-7 border border-white/10 font-bold text-[10px]">
+                                <Button onClick={handleCopyDocker} variant="secondary" className="!p-1 h-7 border border-white/10 font-bold text-[10px] font-sans-default">
                                     {copiedDocker ? <Check className="h-3 w-3 text-green-400 mr-1" /> : <Copy className="h-3 w-3 mr-1" />}
                                     Copy Script
                                 </Button>

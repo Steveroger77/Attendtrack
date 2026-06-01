@@ -46,10 +46,12 @@ const CourseAttendanceCard: React.FC<{
         onOpenModal(mockPeriod);
     };
 
+    const isCloudComputing = courseInfo.course.title.toLowerCase().includes('cloud computing');
+
     return (
         <Card className="p-5 flex flex-col justify-between">
             <div>
-                <h3 className="text-lg font-bold">{courseInfo.course.title}</h3>
+                <h3 className={`text-lg font-bold ${isCloudComputing ? 'font-sans-default' : ''}`}>{courseInfo.course.title}</h3>
                 <p className="text-sm text-gray-500 mb-4">{courseInfo.course.code} - Section {courseInfo.section.section_name}</p>
 
                 {scheduledPeriod ? (
@@ -59,7 +61,7 @@ const CourseAttendanceCard: React.FC<{
                     </div>
                 ) : (
                     <div className="text-center bg-yellow-500/10 p-3 rounded-lg">
-                         <p className="text-sm font-semibold text-yellow-300">Not scheduled for today</p>
+                         <p className="text-sm font-semibold text-yellow-300 font-sans-default">Not scheduled for today</p>
                          <p className="text-xs text-gray-400">Mark an extra class if needed.</p>
                     </div>
                 )}
@@ -67,7 +69,7 @@ const CourseAttendanceCard: React.FC<{
             
             <div className="mt-4">
                 {scheduledPeriod ? (
-                    <Button className="w-full" onClick={() => onOpenModal(scheduledPeriod)}>
+                    <Button className="w-full font-sans-default" onClick={() => onOpenModal(scheduledPeriod)}>
                         View/Mark Attendance
                     </Button>
                 ) : (
@@ -81,7 +83,7 @@ const CourseAttendanceCard: React.FC<{
                             max="10"
                             className="w-20 px-3 py-2 bg-black/30 border border-white/10 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
                         />
-                        <Button className="w-full" onClick={handleOpenUnscheduled}>
+                        <Button className="w-full font-sans-default" onClick={handleOpenUnscheduled}>
                             Open Grid
                         </Button>
                     </div>

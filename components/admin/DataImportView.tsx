@@ -109,8 +109,8 @@ const DataImportView: React.FC = () => {
                     <h2 className="text-xl font-semibold p-6 border-b border-white/10">User Import</h2>
                     <div className="p-6 space-y-4">
                         <p className="text-sm text-gray-400">Upload a CSV with columns: `name`, `email`, `college_id`, `role`.</p>
-                        <Button variant="secondary" onClick={() => handleDownloadTemplate('users')}>Download User Template</Button>
-                        <input type="file" accept=".csv" onChange={e => handleFileChange(e, setUserCsv)} className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-white/10 file:text-sm file:font-semibold file:bg-black/30 file:text-gray-300 hover:file:bg-black/50"/>
+                        <Button variant="secondary" onClick={() => handleDownloadTemplate('users')} className="font-sans-default">Download User Template</Button>
+                        <input type="file" accept=".csv" onChange={e => handleFileChange(e, setUserCsv)} className="block w-full text-sm text-gray-400 font-sans-default file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-white/10 file:text-sm file:font-semibold file:bg-black/30 file:text-gray-300 hover:file:bg-black/50"/>
                         <Button onClick={handleUserImport} disabled={!userCsv || isUserImporting} className="w-full">
                             {ICONS.upload}
                             {isUserImporting ? 'Importing...' : `Import ${userCsv ? 'Users' : ''}`}
@@ -122,8 +122,8 @@ const DataImportView: React.FC = () => {
                     <h2 className="text-xl font-semibold p-6 border-b border-white/10">Enrollment Import</h2>
                      <div className="p-6 space-y-4">
                         <p className="text-sm text-gray-400">Upload a CSV with columns: `student_college_id`, `course_code`, `section_name`.</p>
-                        <Button variant="secondary" onClick={() => handleDownloadTemplate('enrollments')}>Download Enrollment Template</Button>
-                        <input type="file" accept=".csv" onChange={e => handleFileChange(e, setEnrollmentCsv)} className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-white/10 file:text-sm file:font-semibold file:bg-black/30 file:text-gray-300 hover:file:bg-black/50"/>
+                        <Button variant="secondary" onClick={() => handleDownloadTemplate('enrollments')} className="font-sans-default">Download Enrollment Template</Button>
+                        <input type="file" accept=".csv" onChange={e => handleFileChange(e, setEnrollmentCsv)} className="block w-full text-sm text-gray-400 font-sans-default file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-white/10 file:text-sm file:font-semibold file:bg-black/30 file:text-gray-300 hover:file:bg-black/50"/>
                         <Button onClick={handleEnrollmentImport} disabled={!enrollmentCsv || isEnrollmentImporting} className="w-full">
                             {ICONS.upload}
                             {isEnrollmentImporting ? 'Importing...' : `Import ${enrollmentCsv ? 'Enrollments' : ''}`}

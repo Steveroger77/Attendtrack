@@ -1,0 +1,71 @@
+/* Sleek and minimalist custom scrollbar styles following the app's tech theme */
+
+/* Force smooth scrolling globally across all scrollable viewports and containers */
+* {
+  scroll-behavior: smooth !important;
+}
+
+html, body {
+  scroll-behavior: smooth !important;
+  -webkit-overflow-scrolling: touch; /* Smooth inertial momentum scrolling on mobile devices */
+}
+
+/* Target Webkit browsers (Chrome, Safari, Edge, Opera) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 10, 15, 0.6);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.25); /* Subtle purple translucent thumb to match BTech theme */
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.6); /* Glowing vibrant purple on hover */
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox standard support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 92, 246, 0.25) rgba(10, 10, 15, 0.6);
+}
+
+/* Sophisticated hardware-accelerated animations for buttery smooth slide-ups and transitions */
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeInSlide 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.animate-fade-in {
+  animation: fadeInSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* General duration helpers for interactive panels */
+.smooth-transition {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}

@@ -2,6 +2,7 @@ import React, { useState, useEffect, FormEvent } from 'react';
 import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 import { TimetableEntry } from '../../types';
+import CustomSelect from '../ui/CustomSelect';
 
 interface EditTimetableModalProps {
   isOpen: boolean;
@@ -49,12 +50,19 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ isOpen, onClose
       <form onSubmit={handleSubmit}>
         <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="day_of_week" className="block text-sm font-medium text-gray-300">Day of Week</label>
-            <select name="day_of_week" id="day_of_week" value={formData.day_of_week} onChange={handleChange} className={inputClasses}>
-              {daysOfWeek.map(day => (
-                <option key={day.value} value={day.value}>{day.label}</option>
-              ))}
-            </select>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Day of Week</label>
+            <CustomSelect
+              name="day_of_week"
+              id="day_of_week"
+              value={formData.day_of_week}
+              onChange={(e) => {
+                setFormData(prev => ({
+                  ...prev,
+                  day_of_week: typeof e.target.value === 'string' ? parseInt(e.target.value, 10) : e.target.value,
+                }));
+              }}
+              options={daysOfWeek}
+            />
           </div>
           <div>
             <label htmlFor="period_index" className="block text-sm font-medium text-gray-300">Period Index</label>

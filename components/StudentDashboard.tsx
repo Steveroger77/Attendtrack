@@ -101,12 +101,8 @@ const StudentDashboard: React.FC = () => {
           <Card className="mb-8 p-6 bg-gradient-to-r from-purple-900/40 to-indigo-900/40 border border-purple-500/30 shadow-lg shadow-purple-500/10">
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                   <div>
-                      <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2">
-                          <span className="relative flex h-3 w-3">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                          </span>
-                          🔒 Active Classroom Self Check-In
+                      <h3 className="text-xl font-bold text-gray-100 flex items-center gap-2 font-sans-default">
+                          Active Classroom Self Check-In
                       </h3>
                       <p className="text-sm text-gray-400 mt-1 mt-md-0">
                           Enter the temporary 4-digit PIN displayed on your lecturer's screen to log your presence.
@@ -121,7 +117,7 @@ const StudentDashboard: React.FC = () => {
                           onChange={(e) => setCheckInPin(e.target.value.replace(/\D/g, ''))}
                           className="px-4 py-2 text-center text-lg font-mono font-bold tracking-widest bg-black/60 border border-white/20 rounded-lg w-24 focus:outline-none focus:ring-2 focus:ring-purple-500"
                       />
-                      <Button type="submit" disabled={checkInLoading || !checkInPin.trim()} className="whitespace-nowrap">
+                      <Button type="submit" disabled={checkInLoading || !checkInPin.trim()} className="whitespace-nowrap font-sans-default">
                           {checkInLoading ? 'Verifying...' : 'Check-In'}
                       </Button>
                   </form>
@@ -135,12 +131,12 @@ const StudentDashboard: React.FC = () => {
 
             {lowAttendanceCourses.length > 0 && (
             <Card className="mb-8 p-6 bg-yellow-500/10 backdrop-blur-xl border-yellow-500/30">
-                <h3 className="text-xl font-bold text-yellow-300">Low Attendance Alert</h3>
+                <h3 className="text-xl font-bold text-yellow-300 font-sans-default">Low Attendance Alert</h3>
                 <p className="text-yellow-400 mt-1">Your attendance is below the {warnPct}% threshold in the following subjects. Please attend classes regularly.</p>
                 <ul className="mt-4 space-y-2 list-disc list-inside">
                     {lowAttendanceCourses.map(course => (
                         <li key={course.code}>
-                            <span className="font-semibold">{course.title}</span> ({course.percentage}%)
+                            <span className="font-semibold font-sans-default">{course.title}</span> ({course.percentage}%)
                         </li>
                     ))}
                 </ul>
@@ -152,7 +148,7 @@ const StudentDashboard: React.FC = () => {
                 <Card key={course.code} className="p-6 flex flex-col">
                     <div className="space-y-4 flex-grow">
                     <div>
-                        <h3 className="text-lg font-bold">{course.title}</h3>
+                        <h3 className="text-lg font-bold font-sans-default">{course.title}</h3>
                         <p className="text-sm text-gray-500">{course.code}</p>
                     </div>
                     
@@ -186,26 +182,42 @@ const StudentDashboard: React.FC = () => {
                 ))}
             </div>
         </div>
-        <div className="lg:col-span-1">
-             <h2 className="text-2xl font-bold text-gray-200 mb-4 flex items-center gap-2">
+        <div className="lg:col-span-1 border-t lg:border-t-0 pt-8 lg:pt-0 border-white/10">
+             <h2 className="text-2xl font-bold text-gray-200 mb-6 flex items-center gap-2 font-sans-default">
                 {ICONS.megaphone}
                 Recent Announcements
             </h2>
             {announcements.length > 0 ? (
-                <div className="space-y-4 max-h-[80vh] overflow-y-auto pr-2">
-                    {announcements.map(ann => (
-                        <Card key={ann.id} className="p-4">
-                            <p className="text-sm text-gray-300 whitespace-pre-wrap">{ann.content}</p>
-                            <div className="text-xs text-gray-500 mt-3 pt-3 border-t border-purple-800/30">
-                                <p className="font-semibold">{ann.course.title} - Sec {ann.section.section_name}</p>
-                                <p>by {ann.lecturer.name}</p>
-                                <p>{new Date(ann.created_at).toLocaleString()}</p>
-                            </div>
-                        </Card>
-                    ))}
+                <div className="space-y-4 max-h-[80vh] overflow-y-auto pr-2 animate-fadeIn">
+                    {announcements.map(ann => {
+                        const courseTitle = ann.course?.title || 'Unknown Course';
+                        const sectionName = ann.section?.section_name || 'N/A';
+                        const lecturerName = ann.lecturer?.name || 'Assigned Lecturer';
+                        const timestamp = ann.created_at ? new Date(ann.created_at).toLocaleString() : 'Recently';
+
+                        return (
+                            <Card key={ann.id} className="p-5 flex flex-col justify-between">
+                                <div className="space-y-2">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <span className="text-xs bg-purple-500/20 border border-purple-500/30 text-purple-300 px-2 py-0.5 rounded font-semibold">
+                                            {courseTitle}
+                                        </span>
+                                        <span className="text-xs bg-white/5 border border-white/10 text-gray-400 px-2 py-0.5 rounded">
+                                            Sec {sectionName}
+                                        </span>
+                                    </div>
+                                    <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap mt-2">{ann.content}</p>
+                                </div>
+                                <div className="text-xs text-gray-500 mt-4 pt-3 border-t border-white/5 flex flex-col gap-1">
+                                    <p className="font-medium text-gray-400">by {lecturerName}</p>
+                                    <p className="font-mono text-[10px] text-gray-600">{timestamp}</p>
+                                </div>
+                            </Card>
+                        );
+                    })}
                 </div>
             ) : (
-                <Card className="p-8 text-center">
+                <Card className="p-8 text-center bg-black/10 border border-white/5">
                     <p className="text-gray-500">No recent announcements.</p>
                 </Card>
             )}

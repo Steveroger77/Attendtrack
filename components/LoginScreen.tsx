@@ -7,6 +7,7 @@ import MockLoginModal from './MockLoginModal';
 import FeatureTourModal from './FeatureTourModal';
 import { ICONS } from '../constants';
 import Tooltip from './ui/Tooltip';
+import FuturisticLogo from './ui/FuturisticLogo';
 
 const LoginScreen: React.FC = () => {
   const [collegeId, setCollegeId] = useState('');
@@ -37,11 +38,9 @@ const LoginScreen: React.FC = () => {
       </div>
 
       <Card className="w-full max-w-sm p-8 space-y-6 shadow-purple-900/50">
-        <div className="text-center">
-            <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-blue-400 to-gray-200">
-                AttendTrack
-            </h1>
-            <p className="text-gray-500 mt-2">BTech College Attendance System</p>
+        <div className="text-center flex flex-col items-center pb-2">
+            <FuturisticLogo size="lg" showDot={false} className="justify-center select-none" />
+            <p className="text-xs text-gray-400 mt-3 tracking-medium select-none font-sans">Stay Present. Stay Ahead.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -88,7 +87,7 @@ const LoginScreen: React.FC = () => {
               type="button"
               variant="secondary"
               onClick={() => setIsMockModalOpen(true)}
-              className="w-full mt-4"
+              className="w-full mt-4 font-sans-default"
             >
               View Mock Login Details
             </Button>

@@ -6,6 +6,7 @@ import Card from '../ui/Card';
 import Button from '../ui/Button';
 import { useAuth } from '../../hooks/useAuth';
 import { formatDateRange } from '../../utils/date';
+import CustomSelect from '../ui/CustomSelect';
 
 const LeaveStatusBadge: React.FC<{ status: LeaveRequestStatus }> = ({ status }) => {
     const styles = {
@@ -13,9 +14,14 @@ const LeaveStatusBadge: React.FC<{ status: LeaveRequestStatus }> = ({ status }) 
         [LeaveRequestStatus.APPROVED]: 'bg-green-500/20 text-green-300 border-green-500/30',
         [LeaveRequestStatus.DENIED]: 'bg-red-500/20 text-red-300 border-red-500/30',
     };
+    const text = {
+        [LeaveRequestStatus.PENDING]: 'Pending',
+        [LeaveRequestStatus.APPROVED]: 'Approved',
+        [LeaveRequestStatus.DENIED]: 'Denied',
+    };
     return (
         <span className={`px-2 py-1 text-xs font-semibold rounded-md border ${styles[status]}`}>
-            {status}
+            {text[status]}
         </span>
     );
 };
@@ -141,7 +147,7 @@ const LeaveRequestsView: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="md:col-span-1">
                     <Card>
-                         <h2 className="text-xl font-semibold p-6 border-b border-white/10">Apply for Leave</h2>
+                         <h2 className="text-xl font-semibold p-6 border-b border-white/10 font-sans-default">Apply for Leave</h2>
                          <form onSubmit={handleSubmit} className="p-6 space-y-4">
                             <div>
                                <label className="block text-sm font-medium text-gray-300 mb-2">Leave Type</label>
@@ -154,12 +160,16 @@ const LeaveRequestsView: React.FC = () => {
                             {leaveType === 'single' ? (
                                 <>
                                     <div>
-                                        <label htmlFor="course-select" className="block text-sm font-medium text-gray-300">Course</label>
-                                        <select id="course-select" value={selectedCourseSectionId} onChange={e => setSelectedCourseSectionId(e.target.value)} className={inputClasses}>
-                                        {courses.map(c => (
-                                            <option key={`${c.course_id}-${c.section_id}`} value={`${c.course_id}-${c.section_id}`}>{c.title}</option>
-                                        ))}
-                                        </select>
+                                        <label className="block text-sm font-medium text-gray-300 mb-1">Course</label>
+                                        <CustomSelect
+                                            id="course-select"
+                                            value={selectedCourseSectionId}
+                                            onChange={e => setSelectedCourseSectionId(String(e.target.value))}
+                                            options={courses.map(c => ({
+                                                value: `${c.course_id}-${c.section_id}`,
+                                                label: c.title
+                                            }))}
+                                        />
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
@@ -189,7 +199,7 @@ const LeaveRequestsView: React.FC = () => {
                                 <label htmlFor="reason" className="block text-sm font-medium text-gray-300">Reason</label>
                                 <textarea id="reason" value={reason} onChange={e => setReason(e.target.value)} rows={4} className={inputClasses} required placeholder="e.g., Medical appointment"></textarea>
                             </div>
-                            <Button type="submit" disabled={isSubmitting} className="w-full">
+                            <Button type="submit" disabled={isSubmitting} className="w-full font-sans-default">
                                 {isSubmitting ? 'Submitting...' : 'Submit Request'}
                             </Button>
                             {submitSuccess && <p className="text-sm text-center text-green-400">{submitSuccess}</p>}
@@ -198,7 +208,7 @@ const LeaveRequestsView: React.FC = () => {
                     </Card>
                 </div>
                  <div className="md:col-span-2">
-                    <h2 className="text-2xl font-bold text-gray-200 mb-4">Request History</h2>
+                    <h2 className="text-2xl font-bold text-gray-200 mb-4 font-sans-default">Request History</h2>
                     {loading ? <p>Loading history...</p> : (
                         <div className="space-y-4 max-h-[80vh] overflow-y-auto pr-2">
                             {requests.map(req => (

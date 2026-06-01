@@ -52,7 +52,7 @@ const AdminDashboard: React.FC<{ setPage: (page: string) => void; }> = ({ setPag
           {ICONS.user}
           <div>
             <p className="text-sm text-gray-400">Total Users</p>
-            <p className="text-2xl font-bold">{renderValue(stats?.totalUsers)}</p>
+            <p className="text-2xl font-bold font-sans-default">{renderValue(stats?.totalUsers)}</p>
           </div>
         </Card>
         <Card className="p-6 flex items-center space-x-4">

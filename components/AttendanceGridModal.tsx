@@ -284,130 +284,132 @@ const AttendanceGridModal: React.FC<AttendanceGridModalProps> = ({ isOpen, onClo
 
   return (
     <Modal isOpen={isOpen} onClose={handleModalClose} title={title}>
-      {user?.role === Role.STUDENT ? (
-        <StudentAttendanceView details={studentDetails} loading={loading} error={error}/>
-      ) : (
-      <div className="flex flex-col h-full">
-        <div className="p-4 bg-black/30 rounded-t-lg border-b border-white/10 space-y-3 shrink-0">
-          <div className="flex flex-wrap justify-between items-center gap-4">
-            <div className="text-sm text-gray-400">
-              <span className="font-semibold">{new Date(date).toDateString()}</span> — Period {period.period_index}
-            </div>
-            <Tooltip text={`Lecturers may edit attendance for up to ${editWindowDays} days. After that, changes require admin override.`}>
-              <div className={`flex items-center gap-2 text-xs font-medium px-3 py-1 rounded-full ${isEditLocked ? 'bg-red-500/20 text-red-300' : 'bg-green-500/20 text-green-300'}`}>
-                {isEditLocked ? ICONS.lock : ICONS.info}
-                <span>{isEditLocked ? 'Edit Locked' : `Edit Window: ${daysLeft} day(s) left`}</span>
+      <div className="font-sans-default h-full flex flex-col">
+        {user?.role === Role.STUDENT ? (
+          <StudentAttendanceView details={studentDetails} loading={loading} error={error}/>
+        ) : (
+        <div className="flex flex-col h-full">
+          <div className="p-4 bg-black/30 rounded-t-lg border-b border-white/10 space-y-3 shrink-0">
+            <div className="flex flex-wrap justify-between items-center gap-4">
+              <div className="text-sm text-gray-400">
+                <span className="font-semibold">{new Date(date).toDateString()}</span> — Period {period.period_index}
               </div>
-            </Tooltip>
+              <Tooltip text={`Lecturers may edit attendance for up to ${editWindowDays} days. After that, changes require admin override.`}>
+                <div className={`flex items-center gap-2 text-xs font-medium px-3 py-1 rounded-full ${isEditLocked ? 'bg-red-500/20 text-red-300' : 'bg-green-500/20 text-green-300'}`}>
+                  {isEditLocked ? ICONS.lock : ICONS.info}
+                  <span>{isEditLocked ? 'Edit Locked' : `Edit Window: ${daysLeft} day(s) left`}</span>
+                </div>
+              </Tooltip>
+            </div>
+
+            {/* Real-Life Classroom Self Registration PIN */}
+            {!isEditLocked && (
+              <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between p-3 bg-gradient-to-r from-purple-950/30 to-indigo-950/30 border border-purple-500/20 rounded-lg gap-4">
+                <div>
+                  <p className="text-sm font-semibold text-gray-200">Classroom Self-Registration PIN</p>
+                  <p className="text-xs text-gray-400">
+                    Broadcast this PIN to your students to let them securely enter attendance on their dashboard.
+                  </p>
+                </div>
+                <div className="flex items-center gap-3 self-end md:self-auto">
+                  {activePin ? (
+                    <div className="flex items-center gap-3 bg-black/50 px-3 py-1.5 border border-green-500/30 rounded-lg shadow">
+                      <span className="text-xl font-mono font-black text-green-400 tracking-widest leading-none">{activePin}</span>
+                      <span className="text-xs font-mono text-gray-400 border-l border-white/10 pl-3 leading-none">
+                        {Math.floor(pinTimer / 60)}:{(pinTimer % 60).toString().padStart(2, '0')}
+                      </span>
+                    </div>
+                  ) : (
+                    <Button variant="secondary" onClick={handleGeneratePin} disabled={generatingPin} className="!text-xs !py-1.5 font-sans-default">
+                      {generatingPin ? 'Generating...' : '🔑 Generate Check-In PIN'}
+                    </Button>
+                  )}
+                  {activePin && (
+                    <Button variant="secondary" onClick={handleGeneratePin} className="!text-xs !py-1.5 border border-white/5 bg-black/20 text-gray-400 font-sans-default">
+                       Refresh Code
+                    </Button>
+                  )}
+                </div>
+              </div>
+            )}
+
+             <div className="flex flex-wrap items-center gap-2">
+                  <Button variant="secondary" onClick={() => handleBulkMark(AttendanceStatus.PRESENT)} disabled={isEditLocked} className="font-sans-default">Mark Selected Present</Button>
+                  <Button variant="secondary" onClick={() => handleBulkMark(AttendanceStatus.ABSENT)} disabled={isEditLocked} className="font-sans-default">Mark Selected Absent</Button>
+                  <Button variant="secondary" onClick={() => handleBulkMark(AttendanceStatus.EXCUSED)} disabled={isEditLocked} className="font-sans-default">Mark Selected Excused</Button>
+                  <div className="flex-grow"></div>
+                  <Tooltip text="Refresh student list (picks up student self-check-ins instantly)">
+                    <Button 
+                        variant="secondary" 
+                        onClick={fetchLecturerData} 
+                        disabled={loading} 
+                        className="!p-0 w-10 h-10 !rounded-full flex items-center justify-center shrink-0 border border-white/10 hover:bg-white/5 hover:border-white/20 mr-2 shadow-inner transition-transform duration-200 active:scale-95 font-sans-default"
+                    >
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          className={`h-5 w-5 shrink-0 ${loading ? 'animate-spin' : ''}`} 
+                          fill="none" 
+                          viewBox="0 0 24 24" 
+                          stroke="currentColor" 
+                          strokeWidth={2.5}
+                          strokeLinecap="round" 
+                          strokeLinejoin="round"
+                        >
+                          <path d="M3 12a9 9 0 0 1 15-7l3 3M21 3v5h-5" />
+                          <path d="M21 12a9 9 0 0 1-15 7l-3-3M3 21v-5h5" />
+                        </svg>
+                    </Button>
+                  </Tooltip>
+                  <Button onClick={handleSave} disabled={dirtyRows.size === 0 || saving || isEditLocked} className="font-sans-default">
+                      {saving ? 'Saving...' : `Save ${dirtyRows.size > 0 ? `(${dirtyRows.size})` : ''} Changes`}
+                  </Button>
+              </div>
+              {error && <p className="text-sm text-red-400 mt-2">{error}</p>}
           </div>
 
-          {/* Real-Life Classroom Self Registration PIN */}
-          {!isEditLocked && (
-            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between p-3 bg-gradient-to-r from-purple-950/30 to-indigo-950/30 border border-purple-500/20 rounded-lg gap-4">
-              <div>
-                <p className="text-sm font-semibold text-gray-200">Classroom Self-Registration PIN</p>
-                <p className="text-xs text-gray-400">
-                  Broadcast this PIN to your students to let them securely enter attendance on their dashboard.
-                </p>
-              </div>
-              <div className="flex items-center gap-3 self-end md:self-auto">
-                {activePin ? (
-                  <div className="flex items-center gap-3 bg-black/50 px-3 py-1.5 border border-green-500/30 rounded-lg shadow">
-                    <span className="text-xl font-mono font-black text-green-400 tracking-widest leading-none">{activePin}</span>
-                    <span className="text-xs font-mono text-gray-400 border-l border-white/10 pl-3 leading-none">
-                      {Math.floor(pinTimer / 60)}:{(pinTimer % 60).toString().padStart(2, '0')}
-                    </span>
-                  </div>
+          <div className="flex-grow overflow-auto">
+            <table className="w-full min-w-[600px] text-sm text-left text-gray-300">
+              <thead className="text-xs text-gray-400 uppercase bg-gray-900/70 backdrop-blur-sm sticky top-0">
+                <tr>
+                  <th scope="col" className="p-4">
+                    <input type="checkbox" onChange={handleSelectAll} className="w-4 h-4 text-purple-600 bg-gray-800 border-gray-600 rounded focus:ring-purple-600" />
+                  </th>
+                  <th scope="col" className="px-6 py-3">College ID</th>
+                  <th scope="col" className="px-6 py-3">Student Name</th>
+                  <th scope="col" className="px-6 py-3 text-center">Status</th>
+                  <th scope="col" className="px-6 py-3 text-center">Audit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {loading ? (
+                   <tr><td colSpan={5} className="text-center p-8">Loading students...</td></tr>
                 ) : (
-                  <Button variant="secondary" onClick={handleGeneratePin} disabled={generatingPin} className="!text-xs !py-1.5">
-                    {generatingPin ? 'Generating...' : '🔑 Generate Check-In PIN'}
-                  </Button>
+                  students.map((student) => (
+                    <tr key={student.enrollment_id} className={`border-b border-purple-900/60 transition-colors duration-200 ${dirtyRows.has(student.enrollment_id) ? 'bg-yellow-500/10' : 'hover:bg-purple-500/10'}`}>
+                      <td className="w-4 p-4">
+                          <input type="checkbox" checked={selectedRows.has(student.enrollment_id)} onChange={() => handleSelectRow(student.enrollment_id)} className="w-4 h-4 text-purple-600 bg-gray-800 border-gray-600 rounded focus:ring-purple-600" />
+                      </td>
+                      <td className="px-6 py-4 font-mono text-gray-500">{student.college_id}</td>
+                      <th scope="row" className="px-6 py-4 font-medium text-gray-200 whitespace-nowrap">{student.name}</th>
+                      <td className="px-6 py-4 flex justify-center">
+                          <AttendanceStatusToggle status={student.status} onClick={() => handleToggleStatus(student.enrollment_id)} disabled={isEditLocked}/>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <Tooltip text="View attendance history for this student">
+                          <button className="text-gray-500 hover:text-blue-400 transition-colors">
+                              {ICONS.clock}
+                          </button>
+                        </Tooltip>
+                      </td>
+                    </tr>
+                  ))
                 )}
-                {activePin && (
-                  <Button variant="secondary" onClick={handleGeneratePin} className="!text-xs !py-1.5 border border-white/5 bg-black/20 text-gray-400">
-                     Refresh Code
-                  </Button>
-                )}
-              </div>
-            </div>
-          )}
-
-           <div className="flex flex-wrap items-center gap-2">
-                <Button variant="secondary" onClick={() => handleBulkMark(AttendanceStatus.PRESENT)} disabled={isEditLocked}>Mark Selected Present</Button>
-                <Button variant="secondary" onClick={() => handleBulkMark(AttendanceStatus.ABSENT)} disabled={isEditLocked}>Mark Selected Absent</Button>
-                <Button variant="secondary" onClick={() => handleBulkMark(AttendanceStatus.EXCUSED)} disabled={isEditLocked}>Mark Selected Excused</Button>
-                <div className="flex-grow"></div>
-                <Tooltip text="Refresh student list (picks up student self-check-ins instantly)">
-                  <Button 
-                      variant="secondary" 
-                      onClick={fetchLecturerData} 
-                      disabled={loading} 
-                      className="!p-0 w-10 h-10 !rounded-full flex items-center justify-center shrink-0 border border-white/10 hover:bg-white/5 hover:border-white/20 mr-2 shadow-inner transition-transform duration-200 active:scale-95"
-                  >
-                      <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        className={`h-5 w-5 shrink-0 ${loading ? 'animate-spin' : ''}`} 
-                        fill="none" 
-                        viewBox="0 0 24 24" 
-                        stroke="currentColor" 
-                        strokeWidth={2.5}
-                        strokeLinecap="round" 
-                        strokeLinejoin="round"
-                      >
-                        <path d="M3 12a9 9 0 0 1 15-7l3 3M21 3v5h-5" />
-                        <path d="M21 12a9 9 0 0 1-15 7l-3-3M3 21v-5h5" />
-                      </svg>
-                  </Button>
-                </Tooltip>
-                <Button onClick={handleSave} disabled={dirtyRows.size === 0 || saving || isEditLocked}>
-                    {saving ? 'Saving...' : `Save ${dirtyRows.size > 0 ? `(${dirtyRows.size})` : ''} Changes`}
-                </Button>
-            </div>
-            {error && <p className="text-sm text-red-400 mt-2">{error}</p>}
+              </tbody>
+            </table>
+          </div>
         </div>
-
-        <div className="flex-grow overflow-auto">
-          <table className="w-full min-w-[600px] text-sm text-left text-gray-300">
-            <thead className="text-xs text-gray-400 uppercase bg-gray-900/70 backdrop-blur-sm sticky top-0">
-              <tr>
-                <th scope="col" className="p-4">
-                  <input type="checkbox" onChange={handleSelectAll} className="w-4 h-4 text-purple-600 bg-gray-800 border-gray-600 rounded focus:ring-purple-600" />
-                </th>
-                <th scope="col" className="px-6 py-3">College ID</th>
-                <th scope="col" className="px-6 py-3">Student Name</th>
-                <th scope="col" className="px-6 py-3 text-center">Status</th>
-                <th scope="col" className="px-6 py-3 text-center">Audit</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                 <tr><td colSpan={5} className="text-center p-8">Loading students...</td></tr>
-              ) : (
-                students.map((student) => (
-                  <tr key={student.enrollment_id} className={`border-b border-purple-900/60 transition-colors duration-200 ${dirtyRows.has(student.enrollment_id) ? 'bg-yellow-500/10' : 'hover:bg-purple-500/10'}`}>
-                    <td className="w-4 p-4">
-                        <input type="checkbox" checked={selectedRows.has(student.enrollment_id)} onChange={() => handleSelectRow(student.enrollment_id)} className="w-4 h-4 text-purple-600 bg-gray-800 border-gray-600 rounded focus:ring-purple-600" />
-                    </td>
-                    <td className="px-6 py-4 font-mono text-gray-500">{student.college_id}</td>
-                    <th scope="row" className="px-6 py-4 font-medium text-gray-200 whitespace-nowrap">{student.name}</th>
-                    <td className="px-6 py-4 flex justify-center">
-                        <AttendanceStatusToggle status={student.status} onClick={() => handleToggleStatus(student.enrollment_id)} disabled={isEditLocked}/>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <Tooltip text="View attendance history for this student">
-                        <button className="text-gray-500 hover:text-blue-400 transition-colors">
-                            {ICONS.clock}
-                        </button>
-                      </Tooltip>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+        )}
       </div>
-      )}
     </Modal>
   );
 };

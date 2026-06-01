@@ -38,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <header className="flex items-center justify-between p-4 border-b border-white/10 shrink-0">
-          <h2 id={titleId} className="text-xl font-bold text-gray-200">{title}</h2>
+          <h2 id={titleId} className={`text-xl font-bold text-gray-200 ${title.includes('Cloud Computing') ? '' : 'font-sans-default'}`}>{title}</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-200 transition-colors" aria-label="Close modal">
             {ICONS.close}
           </button>

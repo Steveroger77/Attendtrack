@@ -28,22 +28,48 @@ const CopyButton: React.FC<{ textToCopy: string }> = ({ textToCopy }) => {
     };
 
     return (
-        <Button variant="ghost" className="!text-xs !px-2 !py-1" onClick={handleCopy}>
+        <Button variant="ghost" className="!text-xs !px-2 !py-1 font-sans-default" onClick={handleCopy}>
             {copied ? 'Copied!' : 'Copy'}
         </Button>
     );
 };
 
+// Module-level cache to make retrieval instantaneous on subsequent openings
+let cachedLogins: MockLoginCredential[] | null = null;
+let isPrefetching = false;
+
+// Proactively kick off prefetch when the bundler loads this file
+const prefetchMockLogins = async () => {
+  if (cachedLogins || isPrefetching) return;
+  isPrefetching = true;
+  try {
+    const data = await mockApi.getMockLoginDetails();
+    cachedLogins = data;
+  } catch (e) {
+    console.warn('Silent prefetch failed, will retry on open:', e);
+  } finally {
+    isPrefetching = false;
+  }
+};
+prefetchMockLogins();
+
 const MockLoginModal: React.FC<MockLoginModalProps> = ({ isOpen, onClose }) => {
-  const [logins, setLogins] = useState<MockLoginCredential[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [logins, setLogins] = useState<MockLoginCredential[]>(cachedLogins || []);
+  const [loading, setLoading] = useState(!cachedLogins);
 
   useEffect(() => {
     if (isOpen) {
+      if (cachedLogins) {
+        setLogins(cachedLogins);
+        setLoading(false);
+        return;
+      }
+
       const fetchLogins = async () => {
         setLoading(true);
         try {
           const data = await mockApi.getMockLoginDetails();
+          cachedLogins = data;
           setLogins(data);
         } catch (error) {
           console.error("Failed to fetch mock logins", error);
@@ -62,16 +88,19 @@ const MockLoginModal: React.FC<MockLoginModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Mock User Login Details">
-      <div className="p-4">
+      <div className="p-4 transition-all duration-300 ease-in-out">
         {loading ? (
-          <p>Loading details...</p>
+          <div className="flex flex-col items-center justify-center py-12 space-y-3">
+            <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-sm text-gray-400 font-medium">Retrieving secure sandbox credentials...</p>
+          </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-6 animate-fadeIn">
             {Object.values(Role).map(role => (
               groupedLogins[role] && (
                 <div key={role}>
                   <h3 className="text-lg font-semibold text-purple-300 mb-2 flex items-center gap-2">
-                    <RoleBadge role={role} /> {role.charAt(0) + role.slice(1).toLowerCase()}s
+                    <RoleBadge role={role} />
                   </h3>
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
