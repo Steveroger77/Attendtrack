@@ -19,42 +19,7 @@ let sqlDb: any;
 let batchModeActive = false;
 
 const dbReadyPromise = (async () => {
-  let initFn = initSqlJs;
-  if (typeof initFn !== 'function' && initFn && typeof (initFn as any).default === 'function') {
-    initFn = (initFn as any).default;
-  }
-
-  const currentDir = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
-  let wasmBinary: Buffer | undefined = undefined;
-  const possiblePaths = [
-    (() => {
-      try {
-        if (typeof require !== 'undefined') {
-          const sqlJsPath = require.resolve('sql.js');
-          return path.join(path.dirname(sqlJsPath), 'sql-wasm.wasm');
-        }
-      } catch (e) {}
-      return '';
-    })(),
-    path.join(process.cwd(), 'node_modules', 'sql.js', 'dist', 'sql-wasm.wasm'),
-    path.join(currentDir, 'node_modules', 'sql.js', 'dist', 'sql-wasm.wasm'),
-    path.join(currentDir, 'sql-wasm.wasm'),
-    path.join(process.cwd(), 'dist', 'sql-wasm.wasm')
-  ];
-
-  for (const p of possiblePaths) {
-    if (p && fs.existsSync(p)) {
-      try {
-        wasmBinary = fs.readFileSync(p);
-        console.log('Successfully loaded SQL.js WASM binary from:', p);
-        break;
-      } catch (e) {
-        console.warn('Failed to read WASM at path:', p, e);
-      }
-    }
-  }
-
-  const SQL = await initFn(wasmBinary ? { wasmBinary } : undefined);
+  const SQL = await initSqlJs();
   let fileBuffer: Buffer | null = null;
   if (fs.existsSync(DB_PATH)) {
     try {
@@ -65,12 +30,7 @@ const dbReadyPromise = (async () => {
   }
 
   if (fileBuffer && fileBuffer.length > 0) {
-    try {
-      sqlDb = new SQL.Database(fileBuffer);
-    } catch (e) {
-      console.warn('Failed to parse database file with SQL.js, falling back to a clean state', e);
-      sqlDb = new SQL.Database();
-    }
+    sqlDb = new SQL.Database(fileBuffer);
   } else {
     sqlDb = new SQL.Database();
   }
@@ -1916,7 +1876,7 @@ async function startServer() {
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
-    app.get('*', (req, res) => {
+    app.get('*all', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }
