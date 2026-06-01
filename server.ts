@@ -332,17 +332,17 @@ async function initDatabase() {
 
     // Seed users with bcyrpt hashes
     const defaultUsers = [
-      { id: 1, name: 'tanguturi prakasam panthulu', email: 't.panthulu@btech.edu', college_id: 'L001', role: 'LECTURER', pass: 'l001pass' },
-      { id: 2, name: 'veereham bhakalam panthulu', email: 'v.panthulu@btech.edu', college_id: 'L002', role: 'LECTURER', pass: 'l002pass' },
-      { id: 3, name: 'pingali venkayya', email: 'p.venkayya@btech.edu', college_id: 'L003', role: 'LECTURER', pass: 'l003pass' },
-      { id: 4, name: 'bossu', email: 'bossu@btech.edu', college_id: 'L004', role: 'LECTURER', pass: 'l004pass' },
-      { id: 5, name: 'heisenberg', email: 'heisenberg@btech.edu', college_id: 'L005', role: 'LECTURER', pass: 'l005pass' },
-      { id: 6, name: 'amit', email: 'amit@btech.edu', college_id: 'BT2023001', role: 'STUDENT', pass: 'bt2023001pass' },
-      { id: 7, name: 'jon snow', email: 'j.snow@btech.edu', college_id: 'BT2023002', role: 'STUDENT', pass: 'bt2023002pass' },
-      { id: 8, name: 'pedhodu', email: 'pedhodu@btech.edu', college_id: 'BT2023003', role: 'STUDENT', pass: 'bt2023003pass' },
-      { id: 9, name: 'chinnodu', email: 'chinnodu@btech.edu', college_id: 'BT2023004', role: 'STUDENT', pass: 'bt2023004pass' },
-      { id: 10, name: 'zukir', email: 'zukir@btech.edu', college_id: 'BT2023005', role: 'STUDENT', pass: 'bt2023005pass' },
-      { id: 11, name: 'relangi Mavayya', email: 'admin@btech.edu', college_id: 'ADMIN01', role: 'ADMIN', pass: 'admin01pass' }
+      { id: 1, name: 'Tanguturi Prakasam Panthulu', email: 't.panthulu@btech.edu', college_id: 'L001', role: 'LECTURER', pass: 'l001pass' },
+      { id: 2, name: 'Veereham Bhakalam Panthulu', email: 'v.panthulu@btech.edu', college_id: 'L002', role: 'LECTURER', pass: 'l002pass' },
+      { id: 3, name: 'Pingali Venkayya', email: 'p.venkayya@btech.edu', college_id: 'L003', role: 'LECTURER', pass: 'l003pass' },
+      { id: 4, name: 'Bossu', email: 'bossu@btech.edu', college_id: 'L004', role: 'LECTURER', pass: 'l004pass' },
+      { id: 5, name: 'Heisenberg', email: 'heisenberg@btech.edu', college_id: 'L005', role: 'LECTURER', pass: 'l005pass' },
+      { id: 6, name: 'Amit', email: 'amit@btech.edu', college_id: 'BT2023001', role: 'STUDENT', pass: 'bt2023001pass' },
+      { id: 7, name: 'Jon Snow', email: 'j.snow@btech.edu', college_id: 'BT2023002', role: 'STUDENT', pass: 'bt2023002pass' },
+      { id: 8, name: 'Pedhodu', email: 'pedhodu@btech.edu', college_id: 'BT2023003', role: 'STUDENT', pass: 'bt2023003pass' },
+      { id: 9, name: 'Chinnodu', email: 'chinnodu@btech.edu', college_id: 'BT2023004', role: 'STUDENT', pass: 'bt2023004pass' },
+      { id: 10, name: 'Morty', email: 'morty@btech.edu', college_id: 'BT2023005', role: 'STUDENT', pass: 'bt2023005pass' },
+      { id: 11, name: 'Relangi Mavayya', email: 'admin@btech.edu', college_id: 'ADMIN01', role: 'ADMIN', pass: 'admin01pass' }
     ];
 
     for (const u of defaultUsers) {
@@ -471,6 +471,25 @@ async function initDatabase() {
     batchModeActive = false;
     persistDb();
   }
+  
+  // Real-time migration to ensure loaded DB data adheres to capitalization and the Zukir->Morty rename request
+  try {
+    await dbRun(`UPDATE users SET name = 'Tanguturi Prakasam Panthulu' WHERE college_id = 'L001'`);
+    await dbRun(`UPDATE users SET name = 'Veereham Bhakalam Panthulu' WHERE college_id = 'L002'`);
+    await dbRun(`UPDATE users SET name = 'Pingali Venkayya' WHERE college_id = 'L003'`);
+    await dbRun(`UPDATE users SET name = 'Bossu' WHERE college_id = 'L004'`);
+    await dbRun(`UPDATE users SET name = 'Heisenberg' WHERE college_id = 'L005'`);
+    await dbRun(`UPDATE users SET name = 'Amit' WHERE college_id = 'BT2023001'`);
+    await dbRun(`UPDATE users SET name = 'Jon Snow' WHERE college_id = 'BT2023002'`);
+    await dbRun(`UPDATE users SET name = 'Pedhodu' WHERE college_id = 'BT2023003'`);
+    await dbRun(`UPDATE users SET name = 'Chinnodu' WHERE college_id = 'BT2023004'`);
+    await dbRun(`UPDATE users SET name = 'Morty', email = 'morty@btech.edu' WHERE college_id = 'BT2023005'`);
+    await dbRun(`UPDATE users SET name = 'Relangi Mavayya' WHERE college_id = 'ADMIN01'`);
+    persistDb();
+  } catch (err) {
+    console.error('Failed inline database migrations:', err);
+  }
+
   console.log('Database initialization completed.');
 }
 

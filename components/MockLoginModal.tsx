@@ -36,17 +36,17 @@ const CopyButton: React.FC<{ textToCopy: string }> = ({ textToCopy }) => {
 
 // Module-level cache to make retrieval instantaneous on subsequent openings
 const FALLBACK_LOGINS: MockLoginCredential[] = [
-  { name: 'tanguturi prakasam panthulu', college_id: 'L001', role: Role.LECTURER, password: 'l001pass' },
-  { name: 'veereham bhakalam panthulu', college_id: 'L002', role: Role.LECTURER, password: 'l002pass' },
-  { name: 'pingali venkayya', college_id: 'L003', role: Role.LECTURER, password: 'l003pass' },
-  { name: 'bossu', college_id: 'L004', role: Role.LECTURER, password: 'l004pass' },
-  { name: 'heisenberg', college_id: 'L005', role: Role.LECTURER, password: 'l005pass' },
-  { name: 'amit', college_id: 'BT2023001', role: Role.STUDENT, password: 'bt2023001pass' },
-  { name: 'jon snow', college_id: 'BT2023002', role: Role.STUDENT, password: 'bt2023002pass' },
-  { name: 'pedhodu', college_id: 'BT2023003', role: Role.STUDENT, password: 'bt2023003pass' },
-  { name: 'chinnodu', college_id: 'BT2023004', role: Role.STUDENT, password: 'bt2023004pass' },
-  { name: 'zukir', college_id: 'BT2023005', role: Role.STUDENT, password: 'bt2023005pass' },
-  { name: 'relangi Mavayya', college_id: 'ADMIN01', role: Role.ADMIN, password: 'admin01pass' }
+  { name: 'Tanguturi Prakasam Panthulu', college_id: 'L001', role: Role.LECTURER, password: 'l001pass' },
+  { name: 'Veereham Bhakalam Panthulu', college_id: 'L002', role: Role.LECTURER, password: 'l002pass' },
+  { name: 'Pingali Venkayya', college_id: 'L003', role: Role.LECTURER, password: 'l003pass' },
+  { name: 'Bossu', college_id: 'L004', role: Role.LECTURER, password: 'l004pass' },
+  { name: 'Heisenberg', college_id: 'L005', role: Role.LECTURER, password: 'l005pass' },
+  { name: 'Amit', college_id: 'BT2023001', role: Role.STUDENT, password: 'bt2023001pass' },
+  { name: 'Jon Snow', college_id: 'BT2023002', role: Role.STUDENT, password: 'bt2023002pass' },
+  { name: 'Pedhodu', college_id: 'BT2023003', role: Role.STUDENT, password: 'bt2023003pass' },
+  { name: 'Chinnodu', college_id: 'BT2023004', role: Role.STUDENT, password: 'bt2023004pass' },
+  { name: 'Morty', college_id: 'BT2023005', role: Role.STUDENT, password: 'bt2023005pass' },
+  { name: 'Relangi Mavayya', college_id: 'ADMIN01', role: Role.ADMIN, password: 'admin01pass' }
 ];
 
 let cachedLogins: MockLoginCredential[] | null = FALLBACK_LOGINS;
