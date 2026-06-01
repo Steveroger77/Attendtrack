@@ -19,7 +19,11 @@ let sqlDb: any;
 let batchModeActive = false;
 
 const dbReadyPromise = (async () => {
-  const SQL = await initSqlJs();
+  let initFn = initSqlJs;
+  if (typeof initFn !== 'function' && initFn && typeof (initFn as any).default === 'function') {
+    initFn = (initFn as any).default;
+  }
+  const SQL = await initFn();
   let fileBuffer: Buffer | null = null;
   if (fs.existsSync(DB_PATH)) {
     try {
@@ -1876,7 +1880,7 @@ async function startServer() {
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
-    app.get('*all', (req, res) => {
+    app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }
