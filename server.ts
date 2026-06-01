@@ -24,6 +24,7 @@ const dbReadyPromise = (async () => {
     initFn = (initFn as any).default;
   }
 
+  const currentDir = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
   let wasmBinary: Buffer | undefined = undefined;
   const possiblePaths = [
     (() => {
@@ -36,8 +37,9 @@ const dbReadyPromise = (async () => {
       return '';
     })(),
     path.join(process.cwd(), 'node_modules', 'sql.js', 'dist', 'sql-wasm.wasm'),
-    path.join(__dirname, 'node_modules', 'sql.js', 'dist', 'sql-wasm.wasm'),
-    path.join(__dirname, 'sql-wasm.wasm')
+    path.join(currentDir, 'node_modules', 'sql.js', 'dist', 'sql-wasm.wasm'),
+    path.join(currentDir, 'sql-wasm.wasm'),
+    path.join(process.cwd(), 'dist', 'sql-wasm.wasm')
   ];
 
   for (const p of possiblePaths) {
@@ -1914,7 +1916,7 @@ async function startServer() {
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
-    app.get('/:all*', (req, res) => {
+    app.get('*all', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }
