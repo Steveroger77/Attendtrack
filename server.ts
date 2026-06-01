@@ -14,6 +14,20 @@ const JWT_SECRET = process.env.JWT_SECRET || 'college-secure-attendtrack-secret-
 app.use(express.json({ limit: '10mb' }));
 app.use(cors());
 
+// --- SECURITY HEADERS MIDDLEWARE ---
+app.use((req, res, next) => {
+  // 1. Strict-Transport-Security (HSTS)
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+
+  // 2. Content-Security-Policy (CSP)
+  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://aistudiocdn.com https://esm.sh; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' ws: wss: https://esm.sh https://aistudiocdn.com;");
+
+  // 3. X-Content-Type-Options: nosniff
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+
+  next();
+});
+
 // --- DATABASE PROMISE WRAPPERS USING PURE JS/WASM SQL.JS ---
 let sqlDb: any;
 let batchModeActive = false;
