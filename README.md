@@ -6,13 +6,23 @@ Now upgraded with **Ultra-Smooth UI Physics**, **Smart In-Memory Caching**, and 
 
 ---
 
-## 💡 The Core Idea (An Analogy)
+## 💡 The Tech Stack (What Keeps It Humming)
 
-Think of AttendTrack like a **Modern Airport Coordination System**:
-*   **Administrators (Air Traffic Control):** They manage the crew (Lecturers), register the flights (Courses/Sections), and monitor the radar (Audit Log) to ensure transparency across the airspace.
-*   **Lecturers (The Pilots):** They captain each class. They mark who boarded the flight (*Present*, *Absent*, or *Late*) and handle sudden turbulences (*Holiday schedules*, *Remedial extra slots*).
-*   **Students (The Passengers):** They check their stats (*Eligibility ring*) and request boarding passes for missed slots (*Leave submissions*).
-*   **The Audit Log (The Flight Black Box):** Disputed whether a student sat in seat 4B on Tuesday? We open the indestructible *Black Box* to inspect exactly who made the entry, when, what was changed, and which IP or role was signed in. Immutable accountability.
+Instead of overcomplicating things with flashy airport metaphors, let's keep it down-to-earth: **AttendTrack** is a secure, high-utility, full-stack college class tracking and auditing tool. No more clunky spreadsheets, physical books, or students attempting to sneak a friend into the attendance roster!
+
+Here is the tech stack powering the machine:
+
+### 🎨 Frontend (The Interactive Shell)
+*   **React 19 & TypeScript:** Renders clean, fast, interactive views with rock-solid static types so our states never go on "unexpected leave."
+*   **Vite 6:** A lightweight, insanely rapid bundler that spins up our environment in milliseconds.
+*   **Tailwind CSS:** Delivers high-contrast visual themes, gorgeous glassmorphic boxes, and custom neon scrollbars.
+*   **Lucide React:** Standardized vector icons for professional, streamlined interfaces.
+
+### 🛡️ Backend & Persistent Storage (The Core Engine)
+*   **Node.js & Express 5:** Handles APIs, auth gates, and security middleware with low overhead.
+*   **SQL.js (SQLite WebAssembly DB):** A database running directly in-memory and persisting automatically to an on-disk SQLite database file (`attendtrack.db`). No heavy database clusters required.
+*   **JWT & BcryptJS:** Secure token-based user verification and cryptographically hashed passwords to keep access secure.
+*   **Esbuild:** Supercharges production builds by compiling the backend code with speed.
 
 ---
 

@@ -40,7 +40,6 @@ const LoginScreen: React.FC = () => {
       <Card className="w-full max-w-sm p-8 space-y-6 shadow-purple-900/50">
         <div className="text-center flex flex-col items-center pb-2">
             <FuturisticLogo size="lg" showDot={false} className="justify-center select-none" />
-            <p className="text-xs text-gray-400 mt-3 tracking-medium select-none font-sans">Stay Present. Stay Ahead.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
