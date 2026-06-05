@@ -144,10 +144,10 @@ const FuturisticLogo: React.FC<FuturisticLogoProps> = ({
   ];
 
   return (
-    <div className={`flex items-center select-none ${className}`}>
-      <div className={`flex ${currentSize.gap}`}>
+    <div className={`flex items-center select-none shrink-0 ${className}`}>
+      <div className={`flex flex-nowrap shrink-0 ${currentSize.gap}`}>
         {letters.map((letter, idx) => (
-          <div key={idx} className="transition-all duration-300 transform hover:scale-110">
+          <div key={idx} className="flex-shrink-0 transition-all duration-300 transform hover:scale-110">
             {letter.svg}
           </div>
         ))}
